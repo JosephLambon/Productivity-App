@@ -3,13 +3,3 @@
     border-radius: 20px;
     margin: 0 auto;
 }
-
-.active {
-    background-color: rgb(224, 222, 222);
-    border-radius: 20px;
-    border: 0.8px solid darkgrey;
-}
-
-.nav-item:hover {
-    border-bottom: 1px solid;
-}
