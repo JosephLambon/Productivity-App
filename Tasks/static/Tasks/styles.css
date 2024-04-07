@@ -3,3 +3,30 @@
     border-radius: 20px;
     margin: 0 auto;
 }
+
+.active {
+    background-color: rgb(224, 222, 222);
+    border-radius: 20px;
+    border: 0.8px solid darkgrey;
+}
+
+.nav-item:hover {
+    border-bottom: 1px solid;
+}
+
+@media only screen and (max-width:400px) {
+    #nav_calendar_img {
+        max-height: 60px;
+        max-width: 65px;
+    }
+
+    #nav_tasks_img {
+        max-height: 60px;
+        max-width: 65px;
+    }
+    #nav_bar {
+        max-width: 95vw;
+        border-radius: 20px;
+        margin: 0 auto;
+    }
+}
