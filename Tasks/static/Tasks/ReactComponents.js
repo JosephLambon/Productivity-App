@@ -1,7 +1,7 @@
 function toggleActive() {
     const nav_item = document.getElementById(this.id);
     // Toggle active class for clicked item
-    nav_item.classList.toggle('active');
+    nav_item.classList.add('active');
     console.log(nav_item.classList);
 
     // Toggle active class for all other nav items
