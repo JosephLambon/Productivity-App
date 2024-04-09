@@ -1,4 +1,5 @@
-function toggleActive() {
+function toggleActive(event) {
+    event.preventDefault();
     const nav_item = document.getElementById(this.id);
     // Toggle active class for clicked item
     nav_item.classList.add('active');
@@ -11,6 +12,11 @@ function toggleActive() {
             item.classList.remove('active');
         }
     });
+
+    // Manually navigate to href URL after class toggling
+    setTimeout(() => {
+        window.location.href = nav_item.getAttribute('href');
+    }, 100);
 }
 
 var nav_item_tasks = document.getElementById('nav_tasks');
