@@ -1,7 +1,49 @@
 {% extends 'Tasks/layout.html' %}
 
 {% block body %}
-    <h1>Tasks</h1>
-    <div id="tasks_container">
-    <div>
+    <div class="container">
+        <h1>Tasks</h1>
+        <div id="tasks_container">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Default checkbox
+                </label>
+            </div>
+        </div>
+      
+            <div>
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">
+                +
+            </button>
+              
+              <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="staticBackdropLabel">Add New Task</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <div>
+                    <form>
+                        {% csrf_token %} 
+                        {{ new_task_form.non_field_errors }}
+                          <div class="fieldWrapper">
+                            <label for="{{ new_task_form.task.id_for_label }}">What do you need to do?</label>
+                            {{new_task_form.task}}
+                          </div>
+                          
+                              <div class="fieldWrapper">
+                                <label for="{{ new_task_form.target_date.id_for_label }}">&#x1F4C5; Date:</label>
+                                {{new_task_form.target_date}}
+                              </div>
+                              <div class="fieldWrapper">
+                                <label for="{{ new_task_form.target_time.id_for_label }}">&#x23F0; Time:</label>
+                                {{new_task_form.target_time}}
+                              </div>
+                        <input type="submit" value="Add Task">
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
 {% endblock %}
