@@ -14,6 +14,32 @@
     /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); Horizontal offset, vertical offset, blur radius */
 }
 
+#staticBackdrop {
+    background-color: #edf3fc;
+}
+
+#staticBackdropLabel {
+    margin-top: 20px;
+    margin-bottom: 0;
+    margin-left: 8px;
+}
+
+#newTaskForm {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border: solid 1px rgb(239, 246, 255);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#add_task_btn {
+    display: block;
+    margin-top: 15px;
+    margin-left: auto; 
+}
+
 .active {
     background-color: rgb(244, 244, 244);
     border-radius: 5px;
@@ -52,8 +78,8 @@
     flex: 1; /* Take up remaining space */
   }
   
-.inputWrapper input {
-margin-left: 10px; /* Adjust the margin as needed */
+.fieldWrapper input {
+    margin-left: 10px; /* Adjust the margin as needed */
 }
 
 #tasks_container {
@@ -78,5 +104,27 @@ margin-left: 10px; /* Adjust the margin as needed */
         border-radius: 20px;
         margin: 0 auto;
     }
-}
 
+    .fieldWrapper {
+        margin: 10px;
+        display: block;
+    }
+    
+    .fieldWrapper label {
+        display: block;
+        width: 100%;
+      }
+      
+    .fieldWrapper input {
+        margin-top: 5px; /* Adjust the margin as needed */
+        display: block;
+        width: 40%;
+        margin-left: 0%;
+        }
+
+    #id_task {
+        width: 100%;
+        margin-left: 0;
+        display: block;
+    }
+    }

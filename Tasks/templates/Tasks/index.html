@@ -24,10 +24,10 @@
                 </div>
                 <div class="offcanvas-body">
                   <div>
-                    <form>
+                    <form id="newTaskForm">
                         {% csrf_token %} 
                         {{ new_task_form.non_field_errors }}
-                          <div class="fieldWrapper">
+                          <div class="fieldWrapper" id="taskTitle">
                             <label for="{{ new_task_form.task.id_for_label }}">What do you need to do?</label>
                             {{new_task_form.task}}
                           </div>
@@ -40,7 +40,7 @@
                                 <label for="{{ new_task_form.target_time.id_for_label }}">&#x23F0; Time:</label>
                                 {{new_task_form.target_time}}
                               </div>
-                        <input type="submit" value="Add Task">
+                        <input type="submit" value="Add Task" id="add_task_btn">
                     </form>
                   </div>
                 </div>
