@@ -15,7 +15,7 @@
 }
 
 #staticBackdrop {
-    background-color: #edf3fc;
+    background-color: #fcfcfc;
 }
 
 #staticBackdropLabel {
@@ -29,15 +29,37 @@
     margin-left: 10px;
     margin-right: 10px;
     background-color: #ffffff;
-    border: solid 1px rgb(239, 246, 255);
+    border: solid 0.5px rgb(180, 180, 180);
     border-radius: 10px;
     padding: 15px;
 }
 
-#add_task_btn {
+#username {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: black;
+}
+
+.submit_btn {
     display: block;
     margin-top: 15px;
-    margin-left: auto; 
+    margin-left: auto;
+}
+
+#nav_bar_top {
+    padding-left: 2%;
+    padding-right: 20px;
+    padding-bottom: 0;
+}
+
+.registerForm {
+    padding-top: 10px;
+}
+
+.main_page {
+    margin-top: 8vh;
 }
 
 .active {
@@ -46,7 +68,11 @@
     border: 0.8px solid darkgrey;
 }
 
-.nav-item:hover {
+.form-control {
+    margin: 5px;
+}
+
+.nav-link:hover {
     border-bottom: 1px solid;
 }
 
@@ -66,6 +92,39 @@
     margin-left: 2vw;
     margin-right: 2vw;
     margin-top: 2vh;
+}
+
+.central_alert {
+    max-width: 60%;
+    margin: 0 auto;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.blue_btn {
+    background-color: rgb(66, 106, 250);
+    border-radius: 5px;
+    border: 0.5px solid black;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.central_alert_btn {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.blue_btn:hover {
+    background-color: rgb(37, 83, 251);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .fieldWrapper {
@@ -90,15 +149,6 @@
 }
 
 @media only screen and (max-width:604px) {
-    #nav_calendar_img {
-        max-height: 60px;
-        max-width: 65px;
-    }
-
-    #nav_tasks_img {
-        max-height: 60px;
-        max-width: 70px;
-    }
     #nav_bar {
         max-width: 95vw;
         border-radius: 20px;

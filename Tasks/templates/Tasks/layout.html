@@ -10,6 +10,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="{% static 'Tasks/styles.css' %}" rel="stylesheet">
 
+        <link rel="icon" type="image/x-icon" href="{% static 'Tasks/Task_icon.png' %}">
+
         <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
         <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -19,7 +21,37 @@
 
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        {% block body %}{% endblock %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" id="nav_bar_top">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src='{% static 'Tasks/Tick_icon.png' %}' height="30" width="30">
+            </a>
+            <ul class="nav justify-content-end">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <p id='username'>{{ user.username }} </p>
+                    </li>
+                {% endif %}
+                <li class="nav-item flex-fill">
+                    <a class="nav-link" aria-current="page" href="{% url 'register' %}" id="nav_tasks">
+                        Register
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link" aria-current="page" href="{% url 'login' %}" id="nav_tasks">
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link" aria-current="page" href="{% url 'logout' %}" id="nav_tasks">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="main_page">
+            {% block body %}{% endblock %}
+        </div>
+
 
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-bottom justify-content-center" id="nav_bar">
             <ul class="nav">

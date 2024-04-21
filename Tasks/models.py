@@ -8,4 +8,4 @@ class Task(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_tasks")
     task = models.CharField(max_length=255, null=False, blank=False)
     completed = models.BooleanField(default=False)
-    target_date = models.timestamp = models.DateTimeField()
+    target_date = models.DateTimeField()

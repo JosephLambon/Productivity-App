@@ -3,7 +3,20 @@
 {% block body %}
     <div class="container">
         <h1>Calendar</h1>
-        <div id="tasks_container">
-        <div>
+        {% if user.is_authenticated %}
+            <div id="tasks_container">
+            </div>
+          {% else %}
+          <div class="central_alert ">
+            <p>Please login to view or add to your calendar.</p>
+            <button class='blue_btn central_alert_btn'>
+              <a href="{% url 'register' %}">Register</a>
+            </button>
+            <button class='blue_btn central_alert_btn'>
+              <a href="{% url 'login' %}">Login</a>
+            </button>
+          </div>
+          {% endif %}
+
     </div>
 {% endblock %}
