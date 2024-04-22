@@ -24,3 +24,52 @@ var nav_item_calendar = document.getElementById('nav_calendar');
 
 nav_item_tasks.addEventListener('click', toggleActive);
 nav_item_calendar.addEventListener('click', toggleActive);
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
+    checkbox.addEventListener('click', function() {
+        var taskID = this.getAttribute('data-task-ID');
+
+        fetch('/complete-task/',  {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ taskID: taskID })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network reponse was not okay.');
+            }
+        return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                console.log("Task successfully completed")
+                // Update DOM, display move completed tasks appropriately
+            } else {
+                // Handle error.
+                console.error('Error completing this task:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    });
+});

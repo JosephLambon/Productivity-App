@@ -10,8 +10,11 @@
               {% for task in tasks %}
               <div class="row" style="padding-left: 20px; padding-right:20px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
-                  
+                  {% if task.completed == True %}
+                    <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}">
+                  {% endif %}
                   <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
                       <div class="col-8 col-md-8">{{ task.task }}</div>
                       

@@ -6,9 +6,13 @@
   }
 
 #nav_bar {
-    max-width: 20vw;
+    max-width: 23vw;
     border-radius: 10px;
     margin: 0 auto;
+}
+
+.due {
+    font-size: 12px;
 }
 
 #plus {
@@ -17,7 +21,7 @@
     right: 10vw;
     border: solid 1px rgb(0, 21, 255);
     background-color: rgb(93, 144, 255);
-    border-radius: 50%;
+    border-radius: 40%;
     padding: 3px;
     padding-right: 10px;
     padding-left: 10px;
@@ -164,9 +168,12 @@ a {
     border-radius: 5px;
     background-color: rgb(240, 238, 238);
     padding: 5px;
+    max-width: 100%;
+    margin-left: 0 auto;
+    margin-right: 0 auto;
 }
 
-@media only screen and (max-width:604px) {
+@media only screen and (max-width:658px) {
     #nav_bar {
         max-width: 95vw;
         border-radius: 20px;

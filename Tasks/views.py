@@ -9,6 +9,7 @@ from django.utils import timezone
 from .models import User, Task
 
 from .forms import NewTaskForm
+import json
 
 def login_view(request):
     if request.method == "POST":
@@ -81,7 +82,7 @@ def load_calendar(request):
 # If newTask has end date, show it!
 # Turn date red if overdue.
 @login_required
-def new_task(request):
+def new_task(request):    
     user = User.objects.get(id=request.user.id)
     if request.method == "POST":
         form = NewTaskForm(request.POST)
@@ -103,3 +104,18 @@ def new_task(request):
     # Might need to event.preventDefault to stop page reloading...
 
     # Add task to database, render new task to DOM!
+
+@login_required
+def complete_task(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        task_id = data.get('taskID')
+        try:
+            task = Task.objects.get(id=task_id)
+            task.completed = True
+            task.save()
+            return JsonResponse({'success': True, 'message': 'Task completed successfully'}, status=200)
+        except Task.DoesNotExist: 
+            return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=400)

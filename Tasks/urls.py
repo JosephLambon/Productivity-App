@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
+from .views import complete_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +27,6 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path('calendar/', views.load_calendar, name="calendar"),
-    path('add_task', views.new_task, name="new_task")
+    path('add_task', views.new_task, name="new_task"),
+    path('complete-task/', complete_task, name="complete_task")
 ]
