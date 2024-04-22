@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import User, Task
 
 from .forms import NewTaskForm
@@ -64,11 +65,13 @@ def index(request):
 
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
-            "tasks": tasks
+            "tasks": tasks,
+            "now": timezone.now()
         })
     else:
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
+            "now": timezone.now()
         })
 
 def load_calendar(request):

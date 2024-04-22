@@ -4,31 +4,35 @@
       <div class="container" id="tasks_page_container">
         <h1>Tasks</h1>
         {% if user.is_authenticated %}
+
           <div id="tasks_container">
-              <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                  <label class="form-check-label" for="flexCheckDefault">
-                      Default checkbox
+
+              {% for task in tasks %}
+              <div class="row" style="padding-left: 20px; padding-right:20px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="">
+                  
+                  <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
+                      <div class="col-10">{{ task.task }}</div>
+                      {% if task.target_date != None %}
+                        {% if task.target_date|date:"Y-m-d" >= now|date:"Y-m-d" %}
+                            <div class="col-1">{{ task.target_date|date:"M d" }}</div>
+                        {% else  %}
+                            <div class="col-1 danger">{{ task.target_date|date:"M d" }}</div>
+                        {% endif %}
+                      {% else %}
+                          <div class="col-1"></div>
+                      {% endif %}
+                      {% if task.target_time != None %}
+                          <div class="col-1">{{ task.target_time }}</div>
+                      {% else %}
+                          <div class="col-1"></div>
+                      {% endif %}
+                    </div>
                   </label>
               </div>
-              {% for task in tasks %}
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="">
-                <label class="form-check-label" for="flexCheckDefault">
-                    {{ task.task }}
-                    {% if task.target_date != None %}
-                        {{ task.target_date }}
-                    {% endif %}
-                    {% if task.target_time != None %}
-                        {{ task.target_time }}
-                    {% endif %}
-                  
-                </label>
 
-              </div>
               {% endfor %}
-
-
           </div>
         
               <div>

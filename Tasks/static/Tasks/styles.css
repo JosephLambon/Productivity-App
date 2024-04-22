@@ -141,11 +141,19 @@ a {
     margin-left: 10px; /* Adjust the margin as needed */
 }
 
+.success {
+    color: green;
+}
+
+.danger {
+    color: red;
+}
+
 #tasks_container {
     margin-top: 2vh;
     border-radius: 5px;
     background-color: rgb(240, 238, 238);
-    padding: 5px;   
+    padding: 5px;
 }
 
 @media only screen and (max-width:604px) {
