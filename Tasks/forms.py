@@ -3,7 +3,6 @@ from datetime import datetime
 
 class NewTaskForm(forms.Form):
     task = forms.CharField(label="Task",max_length=255)
-    completed = forms.BooleanField(initial=False, disabled=True)
     target_date = forms.DateField(label='Target Completion Date',
                                   required=False,
                                   widget=forms.DateInput(attrs={'type': 'date'}),

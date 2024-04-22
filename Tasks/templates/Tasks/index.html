@@ -11,6 +11,24 @@
                       Default checkbox
                   </label>
               </div>
+              {% for task in tasks %}
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="">
+                <label class="form-check-label" for="flexCheckDefault">
+                    {{ task.task }}
+                    {% if task.target_date != None %}
+                        {{ task.target_date }}
+                    {% endif %}
+                    {% if task.target_time != None %}
+                        {{ task.target_time }}
+                    {% endif %}
+                  
+                </label>
+
+              </div>
+              {% endfor %}
+
+
           </div>
         
               <div>
@@ -25,8 +43,8 @@
                   </div>
                   <div class="offcanvas-body">
                     <div>
-                      <form id="newTaskForm">
-                          {% csrf_token %} 
+                      <form action="{% url 'new_task' %}" id="newTaskForm" method="post">
+                          {% csrf_token %}
                           {{ new_task_form.non_field_errors }}
                             <div class="fieldWrapper" id="taskTitle">
                               <label for="{{ new_task_form.task.id_for_label }}">What do you need to do?</label>

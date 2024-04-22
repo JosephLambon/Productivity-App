@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import User
+from .models import User, Task
 
 from .forms import NewTaskForm
 
@@ -59,9 +59,17 @@ def register(request):
         return render(request, "Tasks/register.html")
 
 def index(request):
-    return render(request, "Tasks/index.html", {
-        "new_task_form": NewTaskForm
-    })
+    if request.user.is_authenticated:
+        tasks = Task.objects.filter(user=request.user).order_by('-created')
+
+        return render(request, "Tasks/index.html", {
+            "new_task_form": NewTaskForm,
+            "tasks": tasks
+        })
+    else:
+        return render(request, "Tasks/index.html", {
+            "new_task_form": NewTaskForm,
+        })
 
 def load_calendar(request):
     return render(request, "Tasks/calendar.html")
@@ -69,9 +77,25 @@ def load_calendar(request):
 # Define newTask.
 # If newTask has end date, show it!
 # Turn date red if overdue.
+@login_required
 def new_task(request):
+    user = User.objects.get(id=request.user.id)
     if request.method == "POST":
-        pass
+        form = NewTaskForm(request.POST)
+
+        if form.is_valid():
+            task = form.cleaned_data["task"]
+            target_date = form.cleaned_data["target_date"]
+            target_time = form.cleaned_data["target_time"]
+        
+        print("target date: ",target_date)
+        print("target time: ",target_time)
+        new_task = Task(user=user, task=task, completed=False,
+                        target_date=target_date,
+                        target_time=target_time)
+        new_task.save()
+        
+        return HttpResponseRedirect(reverse("index"))
 
     # Might need to event.preventDefault to stop page reloading...
 
