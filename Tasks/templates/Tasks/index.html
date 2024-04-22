@@ -13,20 +13,24 @@
                   <input class="form-check-input" type="checkbox" value="">
                   
                   <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
-                      <div class="col-10">{{ task.task }}</div>
+                      <div class="col-8 col-md-8">{{ task.task }}</div>
+                      
                       {% if task.target_date != None %}
-                        {% if task.target_date|date:"Y-m-d" >= now|date:"Y-m-d" %}
-                            <div class="col-1">{{ task.target_date|date:"M d" }}</div>
-                        {% else  %}
-                            <div class="col-1 danger">{{ task.target_date|date:"M d" }}</div>
+                        {% if task.target_date|date:"Y-m-d" > now|date:"Y-m-d" %}
+                            <div class="col-2 col-md-2 due">{{ task.target_date|date:"M d" }}</div>
+                        {% elif task.target_date|date:"Y-m-d" == now|date:"Y-m-d" %}
+                            <div class="col-2 col-md-2 due" style="color: blue;">Today</strong></div>
+                        {% else %}
+                            <div class="col-2 col-md-2 danger due">{{ task.target_date|date:"M d" }}</div>
                         {% endif %}
                       {% else %}
-                          <div class="col-1"></div>
+                          <div class="col-2 col-md-2"></div>
                       {% endif %}
+
                       {% if task.target_time != None %}
-                          <div class="col-1">{{ task.target_time }}</div>
+                          <div class="col-2 col-md-2 due">{{ task.target_time }}</div>
                       {% else %}
-                          <div class="col-1"></div>
+                          <div class="col-2 col-md-2"></div>
                       {% endif %}
                     </div>
                   </label>

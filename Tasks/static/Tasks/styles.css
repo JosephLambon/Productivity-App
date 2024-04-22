@@ -1,5 +1,12 @@
+* {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
 #nav_bar {
-    max-width: 25vw;
+    max-width: 20vw;
     border-radius: 10px;
     margin: 0 auto;
 }
@@ -9,9 +16,12 @@
     bottom: 80px;
     right: 10vw;
     border: solid 1px rgb(0, 21, 255);
-    border-radius: 30%;
+    background-color: rgb(93, 144, 255);
+    border-radius: 50%;
+    padding: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
     font-size: 22px;
-    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); Horizontal offset, vertical offset, blur radius */
 }
 
 #staticBackdrop {
@@ -185,4 +195,21 @@ a {
         margin-left: 0;
         display: block;
     }
+
+    .due {
+        font-size: 11px;
+    }
+    #tasks_container {
+        font-size: 14px;
+    }
+    }
+
+    @media only screen and (max-width:385px) {
+        #tasks_container {
+            font-size: 11px;
+        }
+
+        .due {
+            font-size: 9px;
+        }
     }
