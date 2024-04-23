@@ -4,47 +4,84 @@
       <div class="container" id="tasks_page_container">
         <h1>Tasks</h1>
         {% if user.is_authenticated %}
-
-          <div id="tasks_container">
-
-              {% for task in tasks %}
-              
-              <div class="row" style="padding-left: 20px; padding-right:20px;">
-                <div class="form-check">
-                  {% if task.completed == True %}
-                    <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}" checked>
-                  {% else %}
-                    <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}">
-                  {% endif %}
-                  <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
-                      <div class="col-8 col-md-8">{{ task.task }}</div>
-                      
-                      {% if task.target_date != None %}
-                        {% if task.target_date|date:"Y-m-d" > now|date:"Y-m-d" %}
-                            <div class="col-2 col-md-2 due">{{ task.target_date|date:"M d" }}</div>
-                        {% elif task.target_date|date:"Y-m-d" == now|date:"Y-m-d" %}
-                            <div class="col-2 col-md-2 due" style="color: blue;">Today</strong></div>
-                        {% else %}
-                            <div class="col-2 col-md-2 danger due">{{ task.target_date|date:"M d" }}</div>
-                        {% endif %}
+        
+        <div class="tasks_container" id="uncompleted_tasks_container">
+          {% for task in tasks %}
+          {% if task.completed == False %}
+                  <div class="row" style="padding-left: 20px; padding-right:20px;" id='taskContainer_{{task.id}}'>
+                    <div class="form-check">
+                      {% if task.completed == True %}
+                        <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}" checked>
                       {% else %}
-                          <div class="col-2 col-md-2"></div>
+                        <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}">
                       {% endif %}
+                      <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
+                          <div class="col-8 col-md-8">{{ task.task }}</div>
+                          
+                          {% if task.target_date != None %}
+                            {% if task.target_date|date:"Y-m-d" > now|date:"Y-m-d" %}
+                                <div class="col-2 col-md-2 due">{{ task.target_date|date:"M d" }}</div>
+                            {% elif task.target_date|date:"Y-m-d" == now|date:"Y-m-d" %}
+                                <div class="col-2 col-md-2 due" style="color: blue;">Today</strong></div>
+                            {% else %}
+                                <div class="col-2 col-md-2 danger due">{{ task.target_date|date:"M d" }}</div>
+                            {% endif %}
+                          {% else %}
+                              <div class="col-2 col-md-2"></div>
+                          {% endif %}
 
-                      {% if task.target_time != None %}
-                          <div class="col-2 col-md-2 due">{{ task.target_time }}</div>
-                      {% else %}
-                          <div class="col-2 col-md-2"></div>
-                      {% endif %}
-                    </div>
-                  </label>
-              </div>
-
+                          {% if task.target_time != None %}
+                              <div class="col-2 col-md-2 due">{{ task.target_time }}</div>
+                          {% else %}
+                              <div class="col-2 col-md-2"></div>
+                          {% endif %}
+                        </div>
+                      </label>
+                  </div>
+              {% endif %}
               {% endfor %}
-          </div>
+            </div>
+              
+              <div class="tasks_container" id="completed_tasks_container">
+                <h5>Completed</h5>
+                {% for task in tasks %}
+                {% if task.completed == True %}
+                  <div class="row" style="padding-left: 20px; padding-right:20px;" id='taskContainer_{{task.id}}'>
+                    <div class="form-check">
+                      {% if task.completed == True %}
+                        <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}" checked>
+                      {% else %}
+                        <input class="form-check-input" type="checkbox" value="" data-task-id="{{ task.id }}">
+                      {% endif %}
+                      <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
+                          <div class="col-8 col-md-8">{{ task.task }}</div>
+                          
+                          {% if task.target_date != None %}
+                            {% if task.target_date|date:"Y-m-d" > now|date:"Y-m-d" %}
+                                <div class="col-2 col-md-2 due">{{ task.target_date|date:"M d" }}</div>
+                            {% elif task.target_date|date:"Y-m-d" == now|date:"Y-m-d" %}
+                                <div class="col-2 col-md-2 due" style="color: blue;">Today</strong></div>
+                            {% else %}
+                                <div class="col-2 col-md-2 danger due">{{ task.target_date|date:"M d" }}</div>
+                            {% endif %}
+                          {% else %}
+                              <div class="col-2 col-md-2"></div>
+                          {% endif %}
+
+                          {% if task.target_time != None %}
+                              <div class="col-2 col-md-2 due">{{ task.target_time }}</div>
+                          {% else %}
+                              <div class="col-2 col-md-2"></div>
+                          {% endif %}
+                        </div>
+                      </label>
+                  </div>
+              {% endif %}
+              {% endfor %}
+              </div>
         
               <div>
-              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">
+              <button class="btn btn-primary blue_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">
                   +
               </button>
                 

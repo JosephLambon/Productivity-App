@@ -3,8 +3,6 @@ function toggleActive(event) {
     const nav_item = document.getElementById(this.id);
     // Toggle active class for clicked item
     nav_item.classList.add('active');
-    console.log(nav_item.classList);
-
     // Toggle active class for all other nav items
     const all_nav_items = document.querySelectorAll('.nav-link');
     all_nav_items.forEach(item => {
@@ -63,6 +61,23 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
             if (data.success) {
                 console.log("Task's 'completed' status upadted successfully")
                 // Update DOM, display move completed tasks appropriately
+                console.log('TaskID:', taskID)
+
+                 // Move the task to the appropriate list based on its completion status
+                 const taskContainer = document.getElementById('taskContainer_' + taskID);
+                 taskContainer.remove();
+                 const completedTasksContainer = document.getElementById('completed_tasks_container');
+                 const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
+ 
+                 if (checkbox.checked) {
+                     // If task is completed, move it to completed tasks container
+                    //  completedTasksContainer.appendChild(taskContainer);
+                    completedTasksContainer.appendChild(taskContainer);
+                 } else if (!checkbox.checked) {
+                     // If task is uncompleted, move it back to uncompleted tasks container
+                    //  uncompletedTasksContainer.appendChild(taskContainer);
+                    uncompletedTasksContainer.appendChild(taskContainer);
+                 }
             } else {
                 // Handle error.
                 console.error('Error completing this task:', data.error);
