@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
-from .views import complete_task
+from .views import toggle_complete_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,5 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path('calendar/', views.load_calendar, name="calendar"),
     path('add_task', views.new_task, name="new_task"),
-    path('complete-task/', complete_task, name="complete_task")
+    path('toggle-complete-task/', toggle_complete_task, name="toggle_complete_task")
 ]

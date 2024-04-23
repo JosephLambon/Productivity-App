@@ -45,7 +45,7 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
     checkbox.addEventListener('click', function() {
         var taskID = this.getAttribute('data-task-ID');
 
-        fetch('/complete-task/',  {
+        fetch('/toggle-complete-task/',  {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
         })
         .then(data => {
             if (data.success) {
-                console.log("Task successfully completed")
+                console.log("Task's 'completed' status upadted successfully")
                 // Update DOM, display move completed tasks appropriately
             } else {
                 // Handle error.

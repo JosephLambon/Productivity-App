@@ -106,15 +106,18 @@ def new_task(request):
     # Add task to database, render new task to DOM!
 
 @login_required
-def complete_task(request):
+def toggle_complete_task(request):
     if request.method == "POST":
         data = json.loads(request.body)
         task_id = data.get('taskID')
         try:
             task = Task.objects.get(id=task_id)
-            task.completed = True
+            if task.completed == False:
+                task.completed = True
+            elif task.completed == True:
+                task.completed = False
             task.save()
-            return JsonResponse({'success': True, 'message': 'Task completed successfully'}, status=200)
+            return JsonResponse({'success': True, 'message': "Task's 'completed' status updated successfully"}, status=200)
         except Task.DoesNotExist: 
             return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
     else:

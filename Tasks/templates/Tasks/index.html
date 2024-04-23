@@ -8,6 +8,7 @@
           <div id="tasks_container">
 
               {% for task in tasks %}
+              
               <div class="row" style="padding-left: 20px; padding-right:20px;">
                 <div class="form-check">
                   {% if task.completed == True %}
@@ -63,7 +64,7 @@
                             </div>
                             
                                 <div class="fieldWrapper">
-                                  <label for="{{ new_task_form.target_date.id_for_label }}">&#x1F4C5; Date:</label>
+                                  <label for="{{ new_task_form.target_date.id_for_label }}">&#x1F4C5; Due Date:</label>
                                   {{new_task_form.target_date}}
                                 </div>
                                 <div class="fieldWrapper">
