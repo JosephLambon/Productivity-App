@@ -7,9 +7,10 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import User, Task
-
 from .forms import NewTaskForm
 import json
+
+from playsound import playsound
 
 def login_view(request):
     if request.method == "POST":
@@ -114,6 +115,7 @@ def toggle_complete_task(request):
             task = Task.objects.get(id=task_id)
             if task.completed == False:
                 task.completed = True
+                # playsound('Tasks/static/Tasks/check.WAV')
             elif task.completed == True:
                 task.completed = False
             task.save()

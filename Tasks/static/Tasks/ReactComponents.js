@@ -39,9 +39,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// var audio = new Audio('audio_file.mp3');
+// audio.play();
+
 document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
     checkbox.addEventListener('click', function() {
         var taskID = this.getAttribute('data-task-ID');
+        var audio = new Audio('static/Tasks/check2.WAV');
 
         fetch('/toggle-complete-task/',  {
             method: 'POST',
@@ -59,21 +63,14 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
         })
         .then(data => {
             if (data.success) {
-                console.log("Task's 'completed' status upadted successfully")
                 // Update DOM, display move completed tasks appropriately
-                console.log('TaskID:', taskID)
-
-                 // Move the task to the appropriate list based on its completion status
                  const taskContainer = document.getElementById('taskContainer_' + taskID);
                  taskContainer.remove();
                  const completedTasksContainer = document.getElementById('completed_accordion');
-                 console.log(completedTasksContainer);
                  const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
-                 console.log(uncompletedTasksContainer);
- 
                  if (checkbox.checked) {
                      // If task is completed, move it to completed tasks container
-                    //  completedTasksContainer.appendChild(taskContainer);
+                    audio.play();
                     completedTasksContainer.appendChild(taskContainer);
                  } else if (!checkbox.checked) {
                      // If task is uncompleted, move it back to uncompleted tasks container
