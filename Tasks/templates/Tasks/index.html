@@ -4,7 +4,7 @@
       <div class="container" id="tasks_page_container">
         <h1>Tasks</h1>
         {% if user.is_authenticated %}
-        
+        <div id="tasks_section">
         <div class="tasks_container" id="uncompleted_tasks_container">
           {% for task in tasks %}
           {% if task.completed == False %}
@@ -41,9 +41,18 @@
               {% endif %}
               {% endfor %}
             </div>
-              
-              <div class="tasks_container" id="completed_tasks_container">
-                <h5>Completed</h5>
+            
+
+            <div class="tasks_container" id="completed_tasks_container">
+              <div class="accordion">
+              <div class="accordion-item">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <span class="mont-bold">Completed</span>
+                </button>
+
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                  <div class="accordion-body" id="completed_accordion">
+                    
                 {% for task in tasks %}
                 {% if task.completed == True %}
                   <div class="row" style="padding-left: 20px; padding-right:20px;" id='taskContainer_{{task.id}}'>
@@ -79,6 +88,13 @@
               {% endif %}
               {% endfor %}
               </div>
+
+              
+            </div>
+          </div>
+          </div>
+          </div>
+        </div>
         
               <div>
               <button class="btn btn-primary blue_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">

@@ -66,8 +66,10 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
                  // Move the task to the appropriate list based on its completion status
                  const taskContainer = document.getElementById('taskContainer_' + taskID);
                  taskContainer.remove();
-                 const completedTasksContainer = document.getElementById('completed_tasks_container');
+                 const completedTasksContainer = document.getElementById('completed_accordion');
+                 console.log(completedTasksContainer);
                  const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
+                 console.log(uncompletedTasksContainer);
  
                  if (checkbox.checked) {
                      // If task is completed, move it to completed tasks container

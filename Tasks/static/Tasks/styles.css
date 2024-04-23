@@ -5,6 +5,13 @@
     font-style: normal;
   }
 
+.mont-bold {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }  
+
 #nav_bar {
     max-width: 23vw;
     border-radius: 10px;
@@ -171,6 +178,38 @@ a {
     margin-left: 0;
     } 
 
+#tasks_section {
+    background-color: rgb(239, 239, 239);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Styling the 'completed' accordion */
+.accordion-button:not(.collapsed) {
+    background-color: rgb(240, 238, 238);
+    color: black;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: 0; 
+  }
+
+.accordion-button {
+    border-radius: 10px 10px 5px 5px;
+    background-color: rgb(240, 238, 238);
+    padding: 10px;
+    border: 0;
+    font-size:12px;
+    margin-top: 0;
+}
+
+button.accordion-button:focus{
+    box-shadow: inherit;
+}
+
+.accordion-item {
+    background-color: rgb(240, 238, 238);
+    border: 0;
+}
 
 .success {
     color: green;
@@ -188,6 +227,10 @@ a {
     max-width: 100%;
     margin-left: 0 auto;
     margin-right: 0 auto;
+}
+
+#completed_tasks_container {
+    margin-top: 0;
 }
 
 @media only screen and (max-width:658px) {
