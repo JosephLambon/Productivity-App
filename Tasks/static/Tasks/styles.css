@@ -148,12 +148,31 @@ a {
 }
 
 .fieldWrapper label {
-    flex: 1; /* Take up remaining space */
+    flex: 1; 
   }
   
 .fieldWrapper input {
-    margin-left: 10px; /* Adjust the margin as needed */
+    margin-left: 10px;
 }
+
+
+#taskTitle {
+    margin: 10px;
+    display: block;
+}
+
+#taskTitle label {
+    display: block;
+    width: 100%;
+  }
+  
+#taskTitle input {
+    margin-top: 5px; 
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    } 
+
 
 .success {
     color: green;
@@ -180,21 +199,31 @@ a {
         margin: 0 auto;
     }
 
+    #taskTitle {
+        max-width: 80%;
+    }
+
+    #taskTitle input {
+        margin-left: 10px;
+    }
+
     .fieldWrapper {
         margin: 10px;
         display: block;
+        font-size: 14px;
     }
     
     .fieldWrapper label {
         display: block;
         width: 100%;
+        margin-left: 10px;
       }
       
     .fieldWrapper input {
-        margin-top: 5px; /* Adjust the margin as needed */
+        margin-top: 10px;
         display: block;
         width: 40%;
-        margin-left: 0%;
+        margin-left: 0 auto;
         }
 
     #id_task {
