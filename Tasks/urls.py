@@ -28,5 +28,7 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path('calendar/', views.load_calendar, name="calendar"),
     path('add_task', views.new_task, name="new_task"),
-    path('toggle-complete-task/', toggle_complete_task, name="toggle_complete_task")
+    path('toggle-complete-task/', views.toggle_complete_task, name="toggle_complete_task"),
+    path('edit-task/', views.edit_task, name="edit_task"),
+    path('delete-task/', views.delete_task, name="delete_task")
 ]

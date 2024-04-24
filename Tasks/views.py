@@ -10,7 +10,36 @@ from .models import User, Task
 from .forms import NewTaskForm
 import json
 
-from playsound import playsound
+from django.core.serializers import serialize
+from django.core.serializers.json import DjangoJSONEncoder
+
+def serialise(tasks):
+    for task in tasks:
+        if task.target_date != None:
+            target_date = target_date.strftime('%d %b')
+    # Serialisation allows us to transfer and store the
+    # posts data in a way that remains accessible in JSX
+    # AKA translates our Django 'Post' model data.
+    # See defined natural key in models.py . By default, returns User ID, which is unhelpful.
+    s_tasks = [
+        {
+            'user': task.user.natural_key(),
+            'task': task.task,
+            'completed': task.completed, # Using natural key to retrieve username
+            'target_date': task.target_date,
+            'target_time': task.target_time,
+            'id': task.id,
+            'created': task.created
+        }
+        for task in tasks
+    ]
+    # Sort s_posts list by datetime objects.
+    sorted_tasks = sorted(s_tasks, key=lambda x: x['created'], reverse=True)  
+
+    # Serialize list of dictionary's defined above for each post into JSON string.
+    # DjangoJSONEncoder allows serialisation of datetime objects.
+    serialized_tasks = json.dumps(sorted_tasks, cls=DjangoJSONEncoder)
+    return serialized_tasks
 
 def login_view(request):
     if request.method == "POST":
@@ -64,10 +93,11 @@ def register(request):
 def index(request):
     if request.user.is_authenticated:
         tasks = Task.objects.filter(user=request.user).order_by('-created')
+        serialized_tasks = serialise(tasks)
 
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
-            "tasks": tasks,
+            "tasks": serialized_tasks,
             "now": timezone.now()
         })
     else:
@@ -109,18 +139,4 @@ def new_task(request):
 @login_required
 def toggle_complete_task(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        task_id = data.get('taskID')
-        try:
-            task = Task.objects.get(id=task_id)
-            if task.completed == False:
-                task.completed = True
-                # playsound('Tasks/static/Tasks/check.WAV')
-            elif task.completed == True:
-                task.completed = False
-            task.save()
-            return JsonResponse({'success': True, 'message': "Task's 'completed' status updated successfully"}, status=200)
-        except Task.DoesNotExist: 
-            return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=400)
+        data = json.loads(request.
