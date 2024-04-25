@@ -1,0 +1,130 @@
+{% extends 'Tasks/layout.html' %}
+
+{% block body %}
+      <div class="container" id="tasks_page_container">
+        <h1>Tasks</h1>
+        {% if user.is_authenticated %}
+          <div id="tasks_section">
+            <div class="tasks_container" id="uncompleted_tasks_container">
+              {% comment %} Placeholder for uncompleted tasks {% endcomment %}
+            </div>
+
+            <div class="tasks_container" id="completed_tasks_container">
+              <div class="accordion">
+                <div class="accordion-item">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded='false' data-bs-target="#collapseOne" aria-controls="collapseOne">
+                    <span class="mont-bold">Completed</span>
+                  </button>
+
+                  <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" id="completed_accordion">
+                      {% comment %} Placeholder for completed tasks {% endcomment %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <button class="btn btn-primary blue_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">
+                +
+            </button>
+              
+            <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="staticBackdropLabel">Add New Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <div>
+                  <form action="{% url 'new_task' %}" id="newTaskForm" method="post">
+                      {% csrf_token %}
+                      {{ new_task_form.non_field_errors }}
+                        <div class="fieldWrapper" id="taskTitle">
+                          <label for="{{ new_task_form.task.id_for_label }}">What do you need to do?</label>
+                          {{new_task_form.task}}
+                        </div>
+                        
+                            <div class="fieldWrapper">
+                              <label for="{{ new_task_form.target_date.id_for_label }}">&#x1F4C5; Due Date:</label>
+                              {{new_task_form.target_date}}
+                            </div>
+                            <div class="fieldWrapper">
+                              <label for="{{ new_task_form.target_time.id_for_label }}">&#x23F0; Time:</label>
+                              {{new_task_form.target_time}}
+                            </div>
+                      <input type="submit" value="Add Task" class="submit_btn blue_btn">
+                    </form>
+                  </div>
+                </div>
+              </div>
+        {% else %}
+            <div class="central_alert ">
+              <p>Please login to view or add to your tasks.</p>
+              <button class='blue_btn central_alert_btn'>
+                <a href="{% url 'register' %}">Register</a>
+              </button>
+              <button class='blue_btn central_alert_btn'>
+                <a href="{% url 'login' %}">Login</a>
+              </button>
+            </div>
+        {% endif %}
+      </div>
+      
+
+        <script type="text/babel">
+          function RenderCompleted() {
+            const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
+              console.log(tasks); 
+  
+              const taskComponents = tasks.map((task, index) => {
+                  return (
+                      <div class="" key={task.id}>
+                          <Task
+                              user={task.user}
+                              task={task.task}
+                              completed={task.completed}
+                              target_date={task.target_date}
+                              target_time={task.target_time}
+                              created={task.created}
+                              id={task.id}
+                          />
+                      </div>
+                  );
+              });
+
+              const completed_taskComponents = taskComponents.filter(component => component.props.children.props.completed === true);
+          
+              return completed_taskComponents; 
+          };
+
+          function RenderUncompleted() {
+            const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
+              console.log(tasks); 
+  
+              const taskComponents = tasks.map((task, index) => {
+                  return (
+                      <div class="" key={task.id}>
+                          <Task
+                              user={task.user}
+                              task={task.task}
+                              completed={task.completed}
+                              target_date={task.target_date}
+                              target_time={task.target_time}
+                              created={task.created}
+                              id={task.id}
+                          />
+                      </div>
+                  );
+              });
+
+              const uncompleted_taskComponents = taskComponents.filter(component => component.props.children.props.completed === false);
+          
+              return uncompleted_taskComponents;
+          };
+  
+          ReactDOM.render(<RenderCompleted />, document.querySelector('#completed_accordion'));
+          ReactDOM.render(<RenderUncompleted />, document.querySelector('#uncompleted_tasks_container'));
+      </script>
+{% endblock %}
