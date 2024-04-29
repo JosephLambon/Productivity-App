@@ -21,23 +21,13 @@ const Task = (props) => {
     const now = new Date();
     const now_formatted = now.toLocaleDateString('en-UK', { day: '2-digit', month: 'short' });
     const [completed, setCompleted] = React.useState(props.completed);
-    const item = document.getElementById('taskContainer_' + props.id);
+    var audio = new Audio('static/Tasks/check2.WAV');
 
-    // useEffect hook to log the updated value of completed
-    React.useEffect(() => {
-        console.log('Toggled:', completed);
-    }, [completed]);
-
-    const toggleComplete = React.useCallback((event) => {
-    // const toggleComplete = () => {
+    const Complete = () => {
         const item = document.getElementById('taskContainer_' + props.id);
-        var audio = new Audio('static/Tasks/check2.WAV');
-        const newCompleted = !completed;
-        console.log(item);
+        setCompleted(true);
 
-        setCompleted(newCompleted);
-
-            fetch('/toggle-complete-task/',  {
+            fetch('/complete-task/',  {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,18 +43,6 @@ const Task = (props) => {
             })
             .then(data => {
                 if (data.success) {
-                    // Update DOM, display move completed tasks appropriately
-                    const completedTasksContainer = document.getElementById('completed_accordion');
-                    const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
-                    if (newCompleted) {
-                        // If task is completed, move it to completed tasks container
-                        audio.play();
-                        completedTasksContainer.appendChild(item);
-                    } else if (!newCompleted) {
-                        // If task is uncompleted, move it back to uncompleted tasks container
-                        uncompletedTasksContainer.appendChild(item);
-                        item.children[0].children[0].checked = false;
-                    }
                 } else {
                     // Handle error.
                     console.error('Error completing this task:', data.error);
@@ -73,16 +51,80 @@ const Task = (props) => {
             .catch(error => {
                 console.error('Fetch error:', error);
             });
-        event.stopPropagation();
-        }, [completed]);
 
+            const completedTasksContainer = document.getElementById('completed_accordion');
+            // If task is completed, move it to completed tasks container
+            audio.play();
+            completedTasksContainer.appendChild(item);
+        };
+
+    const Uncomplete = () => {
+        const item = document.getElementById('taskContainer_' + props.id);
+        setCompleted(false);
+
+        fetch('/uncomplete-task/',  {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ taskID: props.id })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network reponse was not okay.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+            } else {
+                // Handle error.
+                console.error('Error completing this task:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+
+        const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
+        audio.play();
+        uncompletedTasksContainer.appendChild(item);
+    }
+
+    const handleClick = () => {
+        if (completed) {
+            Uncomplete();
+        } else {
+            Complete();
+        }
+    }
+
+    React.useEffect(() => {
+        const item = document.getElementById(`taskContainer_${props.id}`);
+        if (completed) {
+            item.removeEventListener('click', Complete);
+            item.addEventListener('click', Uncomplete);
+        } else {
+            item.removeEventListener('click', Uncomplete);
+            item.addEventListener('click', Complete);
+        }
+        // Cleanup function to remove event listeners when component unmounts
+        return () => {
+            item.removeEventListener('click', Complete);
+            item.removeEventListener('click', Uncomplete);
+        };
+    }, [completed, props.id]);
+   
     return (
         <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}>
                       <div class="form-check">
-                        {props.completed ? (
-                          <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} checked onClick={toggleComplete} key={props.id}/>
+                        {completed ? (
+                          <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} 
+                          checked={completed} key={props.id} />
                         ) : (
-                          <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} onClick={toggleComplete} key={props.id} />
+                          <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} 
+                          checked={completed} key={props.id} />
                         )}
                         
                         <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">

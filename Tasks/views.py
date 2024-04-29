@@ -137,7 +137,7 @@ def new_task(request):
     # Add task to database, render new task to DOM!
 
 @login_required
-def toggle_complete_task(request):
+def complete_task(request):
     if request.method == "POST":
         data = json.loads(request.body)
         task_id = data.get('taskID')
@@ -145,19 +145,33 @@ def toggle_complete_task(request):
         try:
             task = Task.objects.get(id=task_id)
             print('Initial: ', task.completed)
-            if task.completed == False:
-                task.completed = True
-                # playsound('Tasks/static/Tasks/check.WAV')
-            elif task.completed == True:
-                task.completed = False
+            task.completed = True
             task.save()
             print('After toggle: ', task.completed)
-            return JsonResponse({'success': True, 'message': "Task's 'completed' status updated successfully"}, status=200)
+            return JsonResponse({'success': True, 'message': "Task 'completed' successfully"}, status=200)
         except Task.DoesNotExist: 
             return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed'}, status=400)
-    
+
+@login_required
+def uncomplete_task(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        task_id = data.get('taskID')
+        
+        try:
+            task = Task.objects.get(id=task_id)
+            print('Initial: ', task.completed)
+            task.completed = False
+            task.save()
+            print('After toggle: ', task.completed)
+            return JsonResponse({'success': True, 'message': "Task 'uncompleted' successfully"}, status=200)
+        except Task.DoesNotExist: 
+            return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=400)
+
 @login_required
 def delete_task(request):
     if request.method == "POST":
