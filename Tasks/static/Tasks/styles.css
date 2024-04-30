@@ -137,6 +137,14 @@
     margin-right: 20px;
 }
 
+.delete-btn {
+    border: none;
+    background-color: inherit;
+    /* text-shadow: 0 0 0 red; */
+    /* background-color: red; */
+    border-radius: 5px;
+}
+
 .blue_btn:hover {
     background-color: rgb(37, 83, 251);
 }

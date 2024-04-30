@@ -27,6 +27,7 @@
             td_formatted = targetDate.toLocaleDateString('en-UK', { day: '2-digit', month: 'short' });
         }
         const [completed, setCompleted] = React.useState(props.completed);
+        const [hidden, setHidden] = React.useState(true)
         var audio = new Audio('static/Tasks/check2.WAV');
 
         const Complete = () => {
@@ -106,8 +107,46 @@
             }
         }
 
+        const Delete =() => {
+            const item = document.getElementById('taskContainer_' + props.id);
+
+            // Ask for confirmation before deleting task.
+            const confirmed = confirm("Are you sure you want to delete this task?");
+
+            if (!confirmed) {
+                return; // If user cancels, exit the function
+            }
+
+            fetch('/delete-task/',  {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ taskID: props.id })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network reponse was not okay.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                } else {
+                    // Handle error.
+                    console.error('Error completing this task:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+            
+            item.remove();
+        }
+
         React.useEffect(() => {
-            const item = document.getElementById(`taskContainer_${props.id}`);
+            const item = document.getElementById(`taskContainer_${props.id}`).children[0].children[0];
             if (completed) {
                 item.removeEventListener('click', Complete);
                 item.addEventListener('click', Uncomplete);
@@ -122,8 +161,10 @@
             };
         }, [completed, props.id]);
 
+        
         return (
-            <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}>
+            <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}
+            onMouseEnter={() => setHidden(false)} onMouseLeave={() => setHidden(true)}>
                         <div class="form-check">
                             {completed ? (
                             <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} 
@@ -136,27 +177,32 @@
                             <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
                                 <div class="col-6 col-md-6">{props.task}</div>
                     
-                        {props.target_date != null ? (
-                                targetDate > now ? (
-                                    <div class="col-2 col-md-2 due">{td_formatted}</div>
-                                ) : td_formatted == now_formatted ? (
-                                    <div class="col-2 col-md-2 due" style={{ color: 'blue' }}>Today</div>
-                                ) : (
-                                    <div class="col-2 col-md-2 danger due">{td_formatted}</div>
-                                )
-                                ) : (
-                                    <div class="col-2 col-md-2"></div>
-                                )}
+                                {props.target_date != null ? (
+                                        targetDate > now ? (
+                                            <div class="col-2 col-md-2 due">{td_formatted}</div>
+                                        ) : td_formatted == now_formatted ? (
+                                            <div class="col-2 col-md-2 due" style={{ color: 'blue' }}>Today</div>
+                                        ) : (
+                                            <div class="col-2 col-md-2 danger due">{td_formatted}</div>
+                                        )
+                                    ) : (
+                                        <div class="col-2 col-md-2"></div>
+                                    )}
 
-                                {props.target_time != null ? (
-                                    <div class="col-2 col-md-2 due">{props.target_time}</div>
-                                ) : (
-                                    <div class="col-2 col-md-2"></div>
-                                )}
-                        
-                            </label>
-                        
+                                <div class="col-2 col-md-2 target-time-container">
+                                    {hidden ? (
+                                        <div class="due">{props.target_time}</div>
+                                    ) : (
+                                        <button onClick={Delete} class="delete-btn">
+                                            &#128465;
+                                        </button>
+                                    )}
+
+                                    
+                                    
+                                </div>
+                        </label>
                         </div>
             </div>
-        );
+        );  
     };

@@ -20,5 +20,5 @@ function toggleActive(event) {
 var nav_item_tasks = document.getElementById('nav_tasks');
 var nav_item_calendar = document.getElementById('nav_calendar');
 
-nav_item_tasks.addEventListener('click', toggleActive);
-nav_item_calendar.addEventListener('click', toggleActive);
+// nav_item_tasks.addEventListener('click', toggleActive);
+// nav_item_calendar.addEventListener('click', toggleActive);
