@@ -63,6 +63,7 @@
                 // If task is completed, move it to completed tasks container
                 audio.play();
                 completedTasksContainer.appendChild(item);
+                setHidden(true);
             };
 
         const Uncomplete = () => {
@@ -97,13 +98,16 @@
             const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
             audio.play();
             uncompletedTasksContainer.appendChild(item);
+            setHidden(true);
         }
 
         const handleClick = () => {
             if (completed) {
                 Uncomplete();
+                setHidden(true);
             } else {
                 Complete();
+                setHidden(true);
             }
         }
 
@@ -145,11 +149,18 @@
             item.remove();
         }
 
+        const Edit = () => {
+            
+        }
+
+
         React.useEffect(() => {
             const item = document.getElementById(`taskContainer_${props.id}`).children[0].children[0];
+
             if (completed) {
                 item.removeEventListener('click', Complete);
                 item.addEventListener('click', Uncomplete);
+                
             } else {
                 item.removeEventListener('click', Uncomplete);
                 item.addEventListener('click', Complete);
@@ -161,6 +172,15 @@
             };
         }, [completed, props.id]);
 
+        if (!hidden) {
+            const del_btn = document.getElementById(`delete-btn_${props.id}`);
+            const ed_btn = document.getElementById(`edit-btn_${props.id}`);
+                
+            console.log(del_btn);
+            console.log(ed_btn);
+            // del_btn.addEventListener('click', Delete);
+            // ed_btn.addEventListener('click', Edit);
+        }
         
         return (
             <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}
@@ -177,29 +197,36 @@
                             <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
                                 <div class="col-6 col-md-6">{props.task}</div>
                     
-                                {props.target_date != null ? (
-                                        targetDate > now ? (
-                                            <div class="col-2 col-md-2 due">{td_formatted}</div>
-                                        ) : td_formatted == now_formatted ? (
-                                            <div class="col-2 col-md-2 due" style={{ color: 'blue' }}>Today</div>
+
+                                <div class="col-2 col-md-2 target-date-container">
+                                    {hidden ? (
+                                        props.target_date != null ? (
+                                            targetDate > now ? (
+                                                <div class="due">{td_formatted}</div>
+                                            ) : td_formatted == now_formatted ? (
+                                                <div class="due" style={{ color: 'blue' }}>Today</div>
+                                            ) : (
+                                                <div class="danger due">{td_formatted}</div>
+                                            )
                                         ) : (
-                                            <div class="col-2 col-md-2 danger due">{td_formatted}</div>
+                                            <div></div>
                                         )
                                     ) : (
-                                        <div class="col-2 col-md-2"></div>
+                                        <button title="Edit" onClick={Edit} class="delete-btn" id={`edit-btn_${props.id}`}>
+                                            &#128395;
+                                        </button>
                                     )}
+                                </div>
 
                                 <div class="col-2 col-md-2 target-time-container">
                                     {hidden ? (
                                         <div class="due">{props.target_time}</div>
                                     ) : (
-                                        <button onClick={Delete} class="delete-btn">
-                                            &#128465;
-                                        </button>
-                                    )}
-
-                                    
-                                    
+                                            <button title="Delete" onClick={Delete} class="delete-btn" id={`delete-btn_${props.id}`}>
+                                                &#128465;
+                                            </button>    
+                                           
+                                    )}                                   
                                 </div>
                         </label>
                         </div>
