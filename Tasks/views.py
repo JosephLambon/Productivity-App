@@ -14,9 +14,9 @@ from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
 
 def serialise(tasks):
-    for task in tasks:
-        if task.target_date != None:
-            task.target_date = task.target_date.strftime('%d %b')
+    # for task in tasks:
+    #     if task.target_date != None:
+    #         task.target_date = task.target_date.strftime('%d %b')
     # Serialisation allows us to transfer and store the
     # posts data in a way that remains accessible in JSX
     # AKA translates our Django 'Post' model data.
@@ -144,10 +144,8 @@ def complete_task(request):
         
         try:
             task = Task.objects.get(id=task_id)
-            print('Initial: ', task.completed)
             task.completed = True
             task.save()
-            print('After toggle: ', task.completed)
             return JsonResponse({'success': True, 'message': "Task 'completed' successfully"}, status=200)
         except Task.DoesNotExist: 
             return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
@@ -162,10 +160,8 @@ def uncomplete_task(request):
         
         try:
             task = Task.objects.get(id=task_id)
-            print('Initial: ', task.completed)
             task.completed = False
             task.save()
-            print('After toggle: ', task.completed)
             return JsonResponse({'success': True, 'message': "Task 'uncompleted' successfully"}, status=200)
         except Task.DoesNotExist: 
             return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
