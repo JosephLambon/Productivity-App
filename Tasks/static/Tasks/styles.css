@@ -308,3 +308,15 @@ button.accordion-button:focus{
             font-size: 9px;
         }
     }
+
+    @media (min-width: 575px) {
+        .navbar-collapse {
+            flex-basis: auto;
+            flex-grow: 1;
+            justify-content: flex-end;
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            margin-right: auto;
+        }
+    }
