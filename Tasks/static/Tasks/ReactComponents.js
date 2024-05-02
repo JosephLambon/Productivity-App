@@ -28,7 +28,8 @@
         }
         const [completed, setCompleted] = React.useState(props.completed);
         const [hidden, setHidden] = React.useState(true)
-        var audio = new Audio('static/Tasks/check2.WAV');
+        const staticUrl = document.getElementById('app').dataset.staticUrl;
+        const audio = new Audio(staticUrl);
 
         // Define refs for each button
         const delBtnRef = React.useRef(null);
@@ -149,7 +150,9 @@
                 Complete();
             }
         }
-        
+
+
+
         return (
             <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}
             onMouseEnter={() => setHidden(false)} onMouseLeave={() => setHidden(true)}>

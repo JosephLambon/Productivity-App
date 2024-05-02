@@ -7,16 +7,16 @@
 
             <nav aria-label="Page navigation" id="nav_drop">
               <div class="dropdown">
-                <a class="btn blue_btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="drop_btn">
+                <a class="btn blue_btn dropdown-toggle unlink" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="drop_btn">
                   Tasks
                 </a>
               
                 <ul class="dropdown-menu">
                   {% if page_obj.has_previous %}
-                      <li class="page-item"><a class="dropdown-item" href="?page={{ page_obj.previous_page_number }}">Previous 10 tasks</a></li>
+                      <li class="page-item"><a class="dropdown-item unlink" href="?page={{ page_obj.previous_page_number }}">Previous 10 tasks</a></li>
                   {% endif %}
                   {% if page_obj.has_next %}
-                      <li class="page-item"><a class=" page-link dropdown-item" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>
+                      <li class="page-item"><a class="page-link dropdown-item unlink" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>
                   {% endif %}
                 </ul>
             </nav>
@@ -37,11 +37,18 @@
               <div class="accordion">
                 <div class="accordion-item">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded='false' data-bs-target="#collapseOne" aria-controls="collapseOne">
-                    <span class="mont-bold">Completed</span>
+                    <span class="mont-bold">Completed (showing 5)
+                    </span>
                   </button>
 
                   <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <p>
+                      <a href="{% url 'list_completed' %}" style="text-decoration: underline; margin-left: 20px;">
+                        see all
+                      </a>
+                    </p>
                     <div class="accordion-body" id="completed_accordion">
+                          
                       {% comment %} Placeholder for completed tasks {% endcomment %}
                     </div>
                   </div>
@@ -49,6 +56,8 @@
               </div>
             </div>
           </div>
+
+          
           
           <div>
             <button class="btn btn-primary blue_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id="plus">
@@ -87,10 +96,10 @@
             <div class="central_alert ">
               <p>Please login to view or add to your tasks.</p>
               <button class='blue_btn central_alert_btn'>
-                <a href="{% url 'register' %}">Register</a>
+                <a class="unlink" href="{% url 'register' %}">Register</a>
               </button>
               <button class='blue_btn central_alert_btn'>
-                <a href="{% url 'login' %}">Login</a>
+                <a class="unlink" href="{% url 'login' %}">Login</a>
               </button>
             </div>
         {% endif %}
@@ -98,10 +107,15 @@
 
         <script type="text/babel">
           function RenderCompleted() {
-            const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
-              const taskComponents = tasks.map((task, index) => {
+            const tasks = JSON.parse('{{ tasks_raw|safe|escapejs }}');
+            const completedTasks = tasks.filter(task => task.completed === true);
+            const sortedCompletedTasks = completedTasks.sort((a, b) => new Date(b.created) - new Date(a.created)); // Sort completed tasks by creation date in descending order
+            const latestCompletedTasks = sortedCompletedTasks.slice(0, 5); // Get the 5 latest completed tasks
+
+
+              const taskComponents = latestCompletedTasks.map((task, index) => {
                   return (
-                      <div class="" key={task.id}>
+                      <div class="complete" key={task.id}>
                           <Task
                               user={task.user}
                               task={task.task}
@@ -114,14 +128,17 @@
                       </div>
                   );
               });
-
-              const completed_taskComponents = taskComponents.filter(component => component.props.children.props.completed === true);
-          
-              return completed_taskComponents; 
+          console.log("tasks:",tasks);
+          console.log("completed:", completedTasks);
+          console.log("sorted completed:", sortedCompletedTasks);
+          console.log("completed:", latestCompletedTasks);
+          console.log(tasks);
+              return taskComponents; 
           };
 
           function RenderUncompleted() {
             const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
+
               const taskComponents = tasks.map((task, index) => {
                   return (
                       <div class="" key={task.id}>

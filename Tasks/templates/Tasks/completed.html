@@ -1,0 +1,68 @@
+{% extends 'Tasks/layout.html' %}
+
+{% block body %}
+      <div class="container" id="tasks_page_container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Completed Tasks</h1>
+
+            <nav aria-label="Page navigation" id="nav_drop">
+              <div class="dropdown">
+                <a class="btn blue_btn dropdown-toggle unlink" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="drop_btn">
+                  Tasks
+                </a>
+              
+                <ul class="dropdown-menu">
+                  {% if page_obj.has_previous %}
+                      <li class="page-item"><a class="dropdown-item unlink" href="?page={{ page_obj.previous_page_number }}">Previous 10 tasks</a></li>
+                  {% endif %}
+                  {% if page_obj.has_next %}
+                      <li class="page-item"><a class="page-link dropdown-item unlink" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>
+                  {% endif %}
+                </ul>
+            </nav>
+          </div>
+        {% if user.is_authenticated %}
+          <div id="tasks_section">
+            <div class="tasks_container" id="uncompleted_tasks_container">
+              {% comment %} Placeholder for uncompleted tasks {% endcomment %}
+            </div>
+
+        {% else %}
+            <div class="central_alert ">
+              <p>Please login to view or add to your tasks.</p>
+              <button class='blue_btn central_alert_btn'>
+                <a class="unlink" href="{% url 'register' %}">Register</a>
+              </button>
+              <button class='blue_btn central_alert_btn'>
+                <a class="unlink" href="{% url 'login' %}">Login</a>
+              </button>
+            </div>
+        {% endif %}
+      </div>      
+
+        <script type="text/babel">
+          function RenderCompleted() {
+            const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
+
+              const taskComponents = tasks.map((task, index) => {
+                  return (
+                      <div class="complete" key={task.id}>
+                          <Task
+                              user={task.user}
+                              task={task.task}
+                              completed={task.completed}
+                              target_date={task.target_date}
+                              target_time={task.target_time}
+                              created={task.created}
+                              id={task.id}
+                          />
+                      </div>
+                  );
+              });
+
+            return taskComponents; 
+          };
+
+        ReactDOM.render(<RenderCompleted />, document.querySelector('#uncompleted_tasks_container'));
+      </script>
+{% endblock %}

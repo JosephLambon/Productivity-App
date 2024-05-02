@@ -22,6 +22,10 @@
     font-size: 12px;
 }
 
+.complete {
+    color: rgba(0, 0, 0, 0.423);
+}
+
 #plus {
     position: fixed;
     bottom: 80px;
@@ -155,7 +159,7 @@
     margin: 10px;
 }
 
-a {
+.unlink {
     text-decoration: none;
     color: inherit;
 }

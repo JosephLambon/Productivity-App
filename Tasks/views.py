@@ -99,10 +99,12 @@ def index(request):
         page_obj = p.get_page(page_no)
 
         serialized_tasks = serialise(page_obj.object_list)
+        tasks_raw = serialise(tasks)
 
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
             "tasks": serialized_tasks,
+            "tasks_raw": tasks_raw,
             "now": timezone.now(),
             "page_obj": page_obj
         })
@@ -111,6 +113,26 @@ def index(request):
             "new_task_form": NewTaskForm,
             "now": timezone.now()
         })
+
+def list_completed(request):
+    if request.user.is_authenticated:
+        tasks = Task.objects.filter(user=request.user).order_by('-created')
+        completed_tasks = tasks.filter(completed=True)
+        
+        p = Paginator(completed_tasks, 30)
+        page_no = request.GET.get('page')
+        page_obj = p.get_page(page_no)
+
+        serialized_tasks = serialise(page_obj.object_list)
+
+        return render(request, "Tasks/completed.html", {
+            "tasks": serialized_tasks,
+            "now": timezone.now(),
+            "page_obj": page_obj
+        })
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
 
 def load_calendar(request):
     return render(request, "Tasks/calendar.html")
@@ -129,8 +151,6 @@ def new_task(request):
             target_date = form.cleaned_data["target_date"]
             target_time = form.cleaned_data["target_time"]
         
-        print("target date: ",target_date)
-        print("target time: ",target_time)
         new_task = Task(user=user, task=task, completed=False,
                         target_date=target_date,
                         target_time=target_time)
