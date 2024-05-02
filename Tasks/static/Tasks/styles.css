@@ -140,13 +140,19 @@
 .delete-btn {
     border: none;
     background-color: inherit;
-    /* text-shadow: 0 0 0 red; */
-    /* background-color: red; */
     border-radius: 5px;
 }
 
 .blue_btn:hover {
     background-color: rgb(37, 83, 251);
+}
+
+#drop_btn {
+    background-color: rgb(239, 239, 239);
+    color: black;
+    border: none;
+    float:right;
+    margin: 10px;
 }
 
 a {

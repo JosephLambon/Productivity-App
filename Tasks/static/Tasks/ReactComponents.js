@@ -30,88 +30,17 @@
         const [hidden, setHidden] = React.useState(true)
         var audio = new Audio('static/Tasks/check2.WAV');
 
-        const Complete = () => {
-            const item = document.getElementById('taskContainer_' + props.id);
-            setCompleted(true);
+        // Define refs for each button
+        const delBtnRef = React.useRef(null);
+        const editBtnRef = React.useRef(null);
 
-                fetch('/complete-task/',  {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({ taskID: props.id })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network reponse was not okay.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                    } else {
-                        // Handle error.
-                        console.error('Error completing this task:', data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
+        const handleEdit = () => {
+            // Edit logic
+            console.log('Edit button clicked.')  
+        };
 
-                const completedTasksContainer = document.getElementById('completed_accordion');
-                // If task is completed, move it to completed tasks container
-                audio.play();
-                completedTasksContainer.appendChild(item);
-                setHidden(true);
-            };
-
-        const Uncomplete = () => {
-            const item = document.getElementById('taskContainer_' + props.id);
-            setCompleted(false);
-
-            fetch('/uncomplete-task/',  {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ taskID: props.id })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network reponse was not okay.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                } else {
-                    // Handle error.
-                    console.error('Error completing this task:', data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-
-            const uncompletedTasksContainer = document.getElementById('uncompleted_tasks_container');
-            audio.play();
-            uncompletedTasksContainer.appendChild(item);
-            setHidden(true);
-        }
-
-        const handleClick = () => {
-            if (completed) {
-                Uncomplete();
-                setHidden(true);
-            } else {
-                Complete();
-                setHidden(true);
-            }
-        }
-
-        const Delete =() => {
+        const handleDelete = () => {
+            // Delete logic
             const item = document.getElementById('taskContainer_' + props.id);
 
             // Ask for confirmation before deleting task.
@@ -119,7 +48,7 @@
 
             if (!confirmed) {
                 return; // If user cancels, exit the function
-            }
+                }
 
             fetch('/delete-task/',  {
                 method: 'POST',
@@ -147,39 +76,78 @@
             });
             
             item.remove();
-        }
+        };
 
-        const Edit = () => {
-            
-        }
+        const Complete = () => {
+            const item = document.getElementById('taskContainer_' + props.id);
+            setCompleted(true);
 
-
-        React.useEffect(() => {
-            const item = document.getElementById(`taskContainer_${props.id}`).children[0].children[0];
-
-            if (completed) {
-                item.removeEventListener('click', Complete);
-                item.addEventListener('click', Uncomplete);
-                
-            } else {
-                item.removeEventListener('click', Uncomplete);
-                item.addEventListener('click', Complete);
-            }
-            // Cleanup function to remove event listeners when component unmounts
-            return () => {
-                item.removeEventListener('click', Complete);
-                item.removeEventListener('click', Uncomplete);
+                fetch('/complete-task/',  {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ taskID: props.id })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network reponse was not okay.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        setHidden(true);
+                    } else {
+                        // Handle error.
+                        console.error('Error completing this task:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+                audio.play();
             };
-        }, [completed, props.id]);
 
-        if (!hidden) {
-            const del_btn = document.getElementById(`delete-btn_${props.id}`);
-            const ed_btn = document.getElementById(`edit-btn_${props.id}`);
-                
-            console.log(del_btn);
-            console.log(ed_btn);
-            // del_btn.addEventListener('click', Delete);
-            // ed_btn.addEventListener('click', Edit);
+        const Uncomplete = () => {
+            const item = document.getElementById('taskContainer_' + props.id);
+            setCompleted(false);
+
+            fetch('/uncomplete-task/',  {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ taskID: props.id })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network reponse was not okay.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    setHidden(false);
+                } else {
+                    // Handle error.
+                    console.error('Error completing this task:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+            audio.play();
+        }
+
+        const handleClick = () => {
+            if (completed) {
+                Uncomplete();
+            } else {
+                Complete();
+            }
         }
         
         return (
@@ -188,10 +156,10 @@
                         <div class="form-check">
                             {completed ? (
                             <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} 
-                            checked={completed} key={props.id} />
+                            checked={completed} onClick={handleClick} key={props.id} />
                             ) : (
                             <input class="form-check-input" type="checkbox" value="" data-task-id={props.id} 
-                            checked={completed} key={props.id} />
+                            checked={completed} onClick={handleClick} key={props.id} />
                             )}
                             
                             <label class="form-check-label d-flex justify-content-between" for="flexCheckDefault">
@@ -212,7 +180,7 @@
                                             <div></div>
                                         )
                                     ) : (
-                                        <button title="Edit" onClick={Edit} class="delete-btn" id={`edit-btn_${props.id}`}>
+                                        <button title="Edit" ref={editBtnRef} onClick={handleEdit} class="delete-btn" id={`edit-btn_${props.id}`}>
                                             &#128395;
                                         </button>
                                     )}
@@ -222,9 +190,9 @@
                                     {hidden ? (
                                         <div class="due">{props.target_time}</div>
                                     ) : (
-                                            <button title="Delete" onClick={Delete} class="delete-btn" id={`delete-btn_${props.id}`}>
-                                                &#128465;
-                                            </button>    
+                                        <button ref={delBtnRef} title="Delete" onClick={handleDelete} class="delete-btn" id={`delete-btn_${props.id}`}>
+                                            &#128465;
+                                        </button>    
                                            
                                     )}                                   
                                 </div>

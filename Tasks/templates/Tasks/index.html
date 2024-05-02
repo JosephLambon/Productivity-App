@@ -2,11 +2,35 @@
 
 {% block body %}
       <div class="container" id="tasks_page_container">
-        <h1>Tasks</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Tasks</h1>
+
+            <nav aria-label="Page navigation" id="nav_drop">
+              <div class="dropdown">
+                <a class="btn blue_btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="drop_btn">
+                  Tasks
+                </a>
+              
+                <ul class="dropdown-menu">
+                  {% if page_obj.has_previous %}
+                      <li class="page-item"><a class="dropdown-item" href="?page={{ page_obj.previous_page_number }}">Previous 10 tasks</a></li>
+                  {% endif %}
+                  {% if page_obj.has_next %}
+                      <li class="page-item"><a class=" page-link dropdown-item" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>
+                  {% endif %}
+                </ul>
+            </nav>
+          </div>
         {% if user.is_authenticated %}
           <div id="tasks_section">
+            
+            
             <div class="tasks_container" id="uncompleted_tasks_container">
+                        
+
               {% comment %} Placeholder for uncompleted tasks {% endcomment %}
+
+
             </div>
 
             <div class="tasks_container" id="completed_tasks_container">
@@ -70,14 +94,11 @@
               </button>
             </div>
         {% endif %}
-      </div>
-      
+      </div>      
 
         <script type="text/babel">
           function RenderCompleted() {
             const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
-              console.log(tasks); 
-  
               const taskComponents = tasks.map((task, index) => {
                   return (
                       <div class="" key={task.id}>
@@ -101,8 +122,6 @@
 
           function RenderUncompleted() {
             const tasks = JSON.parse('{{ tasks|safe|escapejs }}');
-              console.log(tasks); 
-  
               const taskComponents = tasks.map((task, index) => {
                   return (
                       <div class="" key={task.id}>
@@ -123,7 +142,7 @@
           
               return uncompleted_taskComponents;
           };
-  
+          
           ReactDOM.render(<RenderCompleted />, document.querySelector('#completed_accordion'));
           ReactDOM.render(<RenderUncompleted />, document.querySelector('#uncompleted_tasks_container'));
       </script>

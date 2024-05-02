@@ -10,8 +10,8 @@ from .models import User, Task
 from .forms import NewTaskForm
 import json
 
-from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.paginator import Paginator
 
 def serialise(tasks):
     # for task in tasks:
@@ -93,12 +93,18 @@ def register(request):
 def index(request):
     if request.user.is_authenticated:
         tasks = Task.objects.filter(user=request.user).order_by('-created')
-        serialized_tasks = serialise(tasks)
+        
+        p = Paginator(tasks.filter(completed=False), 10)
+        page_no = request.GET.get('page')
+        page_obj = p.get_page(page_no)
+
+        serialized_tasks = serialise(page_obj.object_list)
 
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
             "tasks": serialized_tasks,
-            "now": timezone.now()
+            "now": timezone.now(),
+            "page_obj": page_obj
         })
     else:
         return render(request, "Tasks/index.html", {
