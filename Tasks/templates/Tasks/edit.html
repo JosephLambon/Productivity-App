@@ -1,8 +1,8 @@
 {% extends 'Tasks/layout.html' %}
 
 {% block body %}
-    <div>
-      <h3>Edit Task</h3>
+  <div class="container">
+      <h3 style="margin: 20px;">Edit Task</h3>
       <form action="{% url 'update_task' %}" id="newTaskForm" method="post">
           {% csrf_token %}
           {{ new_task_form.non_field_errors }}
