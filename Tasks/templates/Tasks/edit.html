@@ -1,0 +1,25 @@
+{% extends 'Tasks/layout.html' %}
+
+{% block body %}
+    <div>
+      <h3>Edit Task</h3>
+      <form action="#" id="newTaskForm" method="post">
+          {% csrf_token %}
+          {{ new_task_form.non_field_errors }}
+            <div class="fieldWrapper" id="taskTitle">
+              <label for="{{ new_task_form.task.id_for_label }}">What do you need to do?</label>
+              {{new_task_form.task}}
+            </div>
+            
+                <div class="fieldWrapper">
+                  <label for="{{ new_task_form.target_date.id_for_label }}">&#x1F4C5; Due Date:</label>
+                  {{new_task_form.target_date}}
+                </div>
+                <div class="fieldWrapper">
+                  <label for="{{ new_task_form.target_time.id_for_label }}">&#x23F0; Time:</label>
+                  {{new_task_form.target_time}}
+                </div>
+          <input type="submit" value="Add Task" class="submit_btn blue_btn">
+        </form>
+    </div>    
+{% endblock %}
