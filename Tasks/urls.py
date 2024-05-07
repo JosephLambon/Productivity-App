@@ -27,9 +27,10 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path('calendar/', views.load_calendar, name="calendar"),
-    path('add_task', views.new_task, name="new_task"),
+    path('add_task/', views.new_task, name="new_task"),
     path('complete-task/', views.complete_task, name="complete_task"),
     path('uncomplete-task/', views.uncomplete_task, name="uncomplete_task"),
     path('edit-task/<int:task_id>', views.edit_task, name="edit_task"),
+    path('update-task/', views.update_task, name="update_task"),
     path('delete-task/', views.delete_task, name="delete_task")
 ]

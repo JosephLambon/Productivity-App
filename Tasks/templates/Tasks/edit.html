@@ -3,7 +3,7 @@
 {% block body %}
     <div>
       <h3>Edit Task</h3>
-      <form action="#" id="newTaskForm" method="post">
+      <form action="{% url 'update_task' %}" id="newTaskForm" method="post">
           {% csrf_token %}
           {{ new_task_form.non_field_errors }}
             <div class="fieldWrapper" id="taskTitle">
@@ -19,7 +19,7 @@
                   <label for="{{ new_task_form.target_time.id_for_label }}">&#x23F0; Time:</label>
                   {{new_task_form.target_time}}
                 </div>
-          <input type="submit" value="Add Task" class="submit_btn blue_btn">
+          <input type="submit" value="Update Task" class="submit_btn blue_btn">
         </form>
     </div>    
 {% endblock %}

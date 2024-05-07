@@ -158,10 +158,6 @@ def new_task(request):
         
         return HttpResponseRedirect(reverse("index"))
 
-    # Might need to event.preventDefault to stop page reloading...
-
-    # Add task to database, render new task to DOM!
-
 @login_required
 def complete_task(request):
     if request.method == "POST":
@@ -217,3 +213,23 @@ def edit_task(request, task_id):
         "task": task,
         "new_task_form": edit_task_form
     })
+
+@login_required
+def update_task(request):
+    user = User.objects.get(id=request.user.id)
+    
+    if request.method == "POST":
+        form = NewTaskForm(request.POST)
+
+        if form.is_valid():
+            task_title = form.cleaned_data["task"]
+            target_date = form.cleaned_data["target_date"]
+            target_time = form.cleaned_data["target_time"]
+        
+        task = Task.objects.get(task=task_title, user=user)
+        task.task = task_title
+        task.target_date = target_date
+        task.target_time = target_time
+        task.save()
+        
+        return HttpResponseRedirect(reverse("index"))
