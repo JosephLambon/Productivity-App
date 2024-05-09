@@ -1,0 +1,24 @@
+* {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+.mont-bold {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }  
+
+
+#calendar {
+    max-width: 80%;
+    margin: 0 auto;
+    margin-top: 5vh;
+}
+
+.border {
+  border: solid 1px black;
+}

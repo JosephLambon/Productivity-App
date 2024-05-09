@@ -17,55 +17,6 @@
         return cookieValue;
     }
 
-    
-      
-
-
-    // function EditForm({props, csrfToken}) {
-    //     const [task, setTask] = React.useState(props.task);
-    //     const [target_date, setTargetDate] = React.useState(props.target_date);
-    //     const [target_time, setTargetTime] = React.useState(props.target_time);
-    
-    //     function TaskChange(e) {
-    //         setTask(e.target.value);
-    //     }
-    
-    //     function DateChange(e) {
-    //         setTargetDate(e.target.value);
-    //     }
-    
-    //     function TimeChange(e) {
-    //         setTargetTime(e.target.value);
-    //     }
-    
-    //     return (
-    //             <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="editBackdrop" aria-labelledby="editBackdropLabel" data-bs-toggle="offcanvas">
-    //             <div class="offcanvas-header">
-    //             <h5 class="offcanvas-title" id="editBackdropLabel">Edit Task</h5>
-    //             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    //             </div>
-    
-    //             <div class="offcanvas-body">
-    //             <div>
-    //                 <form action="{% url 'edit_task' %}" id="newTaskForm" method="post">
-    //                 <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
-    //                     <div class="fieldWrapper" id="taskTitle">
-    //                         <input type="text" value={task} onChange={TaskChange}></input>
-    //                     </div>
-    //                     <div class="fieldWrapper">
-    //                         <input type="date" value={target_date} onChange={DateChange} ></input>
-    //                     </div>
-    //                     <div class="fieldWrapper">
-    //                         <input type="time" value={target_time} onChange={TimeChange} ></input>
-    //                     </div>
-    //                     <input type="submit" value="Update Task" class="submit_btn blue_btn" />
-    //                 </form>
-    //                 </div>
-    //             </div>
-    //             </div>
-    //     );
-    // }
-
     const Task = (props) => { 
         // Define dates to be displayable and pass the logic below, even if no target date
         const now = new Date();
@@ -264,3 +215,30 @@
             </div>  
         );  
     };
+
+    const Week = (props) =>{
+        return (
+            <div class="row">
+                    <div class="col-2 p-3 border"> Mon </div>
+                    <div class="col-2 p-3 border"> Tue </div>
+                    <div class="col-2 p-3 border"> Wed </div>
+                    <div class="col-2 p-3 border"> Thu </div>
+                    <div class="col-2 p-3 border"> Fri </div>
+                    <div class="col-1 p-3 border"> Sat </div>
+                    <div class="col-1 p-3 border"> Sun </div>
+            </div>
+        )
+    };
+
+    // Define 'Month' as 6 weeks.
+    const Month = (props) => {
+        const weeks = [];
+        for (let i = 0; i < 6; i++) {
+          weeks.push(<Week key={i} />); // Add key prop with unique value (i)
+        }
+        return (
+            <div class="calendar_container">
+                {weeks}  {/* Render the weeks array */}
+            </div>
+        );
+      };

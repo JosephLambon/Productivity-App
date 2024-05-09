@@ -10,6 +10,9 @@ from .models import User, Task
 from .forms import NewTaskForm
 import json
 
+import pandas as pd
+import datetime
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator
 
@@ -89,6 +92,8 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "Tasks/register.html")
+
+# TASKS
 
 def index(request):
     if request.user.is_authenticated:
@@ -233,3 +238,48 @@ def update_task(request):
         task.save()
         
         return HttpResponseRedirect(reverse("index"))
+    
+# CALENDAR 
+
+def get_six_weeks_around_today():
+    # Get today's date
+    today = datetime.date.today()
+
+    # First day of the month subtract...
+    # the number of days between 1st day of month and the start of the
+    # week contianing the 1st day of the month.
+    # "days=today.replace(day=1).weekday()" returns a digit 0-6
+    # representing a day Monday-Sunday
+    start_date = today.replace(day=1) - datetime.timedelta(days=today.replace(day=1).weekday())
+
+    # Calculate the end date (Sunday) of the week containing the last day of the month
+    next_month = today.replace(day=28) + datetime.timedelta(days=4) # Holds a day into the next month.
+    # next_month.day represents the day of next month that 'next_month' is in.
+    end_date = next_month - datetime.timedelta(days=next_month.day)
+
+    # Adjust start date to the beginning of the week
+    start_date -= datetime.timedelta(days=start_date.weekday())
+
+    # Adjust end date to the end of the week
+    end_date += datetime.timedelta(days=6 - end_date.weekday())
+
+    return start_date, end_date
+
+# Define a new view, to find today's date,
+# then find on which day the 1st and last day of that month falls
+# Then, get the 42 days between the Monday of the
+# Week containing the 1st, and the Sunday of the week
+# containing the 28th-31st of that month.
+def load_calendar(request):
+    start_date, end_date = get_six_weeks_around_today()
+    month_view_dates = pd.date_range(start_date, periods=42)
+    print(month_view_dates)
+
+    return render(request, "Tasks/calendar.html", {
+        "start_date": start_date,
+        "end_date": end_date
+    })
+
+    
+
+

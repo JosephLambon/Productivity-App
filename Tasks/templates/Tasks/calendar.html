@@ -1,21 +1,17 @@
 {% extends 'Tasks/layout.html' %}
 
 {% block body %}
-    <div class="container">
-        <h1>Calendar</h1>
-        {% if user.is_authenticated %}
-            <p>Calendar</p>
-        {% else %}
-          <div class="central_alert ">
-            <p>Please login to view or add to your calendar.</p>
-            <button class='blue_btn central_alert_btn'>
-              <a href="{% url 'register' %}">Register</a>
-            </button>
-            <button class='blue_btn central_alert_btn'>
-              <a href="{% url 'login' %}">Login</a>
-            </button>
-          </div>
-        {% endif %}
+<div class="container">
+  <h1>Calendar</h1>
+  
+      <p>Start date: {{start_date}}</p>
+      <p>End date: {{end_date}}</p>
+  <div id="calendar">
 
-    </div>
+  </div>
+</div>
+
+<script type="text/babel">
+    ReactDOM.render(<Month />, document.querySelector('#calendar'));
+</script>
 {% endblock %}
