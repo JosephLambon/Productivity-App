@@ -267,13 +267,21 @@ def get_six_weeks_around_today():
 
     return start_date, end_date
 
+def find_month(int):
+    months = ["Jan", "Feb", "Mar", "Apr", "May",
+              "Jun", "Jul", "Aug", "Sep", "Oct",
+              "Nov", "Dec"]
+    return months[int - 1]
+
 def load_calendar(request):
     start_date, end_date = get_six_weeks_around_today()
+    month = find_month(datetime.date.today().month)
     month_view_dates = pd.date_range(start_date, periods=42).strftime('%Y-%m-%d').tolist()
-    print(json.dumps(month_view_dates))
 
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
         "end_date": end_date,
-        "month_dates": json.dumps(month_view_dates)
+        "month_dates": json.dumps(month_view_dates),
+        "month": month,
+        "year": datetime.date.today().year
     })

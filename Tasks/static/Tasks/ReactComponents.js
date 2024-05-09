@@ -217,10 +217,15 @@
     };
 
     const Week = ({ dates }) =>{
+        const handleDayClick = (date) => {
+            alert("You have clicked on date: " + date)
+        }
+
         return (
             <div class="row">
                 {dates.map((date, index) => (
-                    <div key={index} className="col p-3 border">
+                    <div key={index} className={"col p-3 border" + (date.toDateString() === new Date().toDateString() ? " today mont-bold" : "")}
+                    onClick={() => handleDayClick(date)}>
                         {date.toLocaleDateString("en-US", { day: "numeric" })} {/* Display day of the week and date */}
                     </div>
                 ))}
@@ -232,8 +237,6 @@
     const Month = ({ monthDates }) => {
         // Convert JSON string of dates back to date objects
         const parsedMonthDates = JSON.parse(monthDates).map(dateStr => new Date(dateStr));
-        console.log("month Dates:", monthDates)
-        console.log("Date objects: ", parsedMonthDates)
         const weeks = [];
         // Define the 6 seperate weeks
         for (let i = 0; i < 6; i++) {
@@ -241,6 +244,8 @@
             const endIdx = startIdx + 7;
             weeks.push(<Week key={i} dates={parsedMonthDates.slice(startIdx, endIdx)} />); // Slice the 7 days for each of the six weeks.
         }
+
+        
         // Return an array of the 6 seperate weeks.
         return (
             <div className="calendar_container">

@@ -3,10 +3,8 @@
 {% block body %}
 <div class="container">
   <h1>Calendar</h1>
-  
-      <p>Start date: {{start_date}}</p>
-      <p>End date: {{end_date}}</p>
-  <div id="calendar_head">
+  <div class="calendar_head" id="calendar_top">
+    <h3 style="margin-bottom: 15px;"> <strong>{{month}}</strong> {{year}} </h3>
     <div class="row">
       <div class="col border mont-bold">Mon</div>
       <div class="col border mont-bold">Tue</div>
@@ -17,7 +15,7 @@
       <div class="col border mont-bold">Sun</div>
     </div>
   </div>
-  <div id="calendar">
+  <div class="calendar_head" id="calendar">
   </div>
 </div>
 
