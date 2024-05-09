@@ -3,8 +3,12 @@
 {% block body %}
 <div class="container">
   <h1>Calendar</h1>
+  
   <div class="calendar_head" id="calendar_top">
-    <h3 style="margin-bottom: 15px;"> <strong>{{month}}</strong> {{year}} </h3>
+    <div class="header-container">
+        <h3 style="margin-bottom: 15px;"> <strong>{{month}}</strong> {{year}} </h3>
+        <button class="blue_btn submit_btn" data-bs-target="#NewEventModalToggle" data-bs-toggle="modal" id="eventAdder">+ Add</button>
+    </div>
     <div class="row">
       <div class="col border mont-bold">Mon</div>
       <div class="col border mont-bold">Tue</div>
@@ -16,6 +20,42 @@
     </div>
   </div>
   <div class="calendar_head" id="calendar">
+  </div>
+</div>
+
+<div class="modal" id="NewEventModalToggle" tabindex="-1" aria-labelledby="NewEventModalToggleLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title mont-bold">New Event</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{% url 'new_event' %}" id="newEventForm" method="post">
+          {% csrf_token %}
+            <div class="modal-body">
+              <div class="fieldWrapper" id="eventTitle">
+                <label class="mont-bold" for="{{ form.title.id_for_label }}">Title:</label>
+                {{form.title}}
+              </div>
+              <div class="fieldWrapper" id="endTime">
+                <label for="{{ form.title.id_for_label }}" class="mont-bold">Date: </label>
+                {{form.date}}
+              </div>
+              <div class="fieldWrapper" id="endTime">
+                <label class="mont-bold" for="{{ form.title.id_for_label }}">Start time: </label>
+                {{form.start_time}}
+              </div>
+              <div class="fieldWrapper">
+                <label class="mont-bold" for="{{ form.title.id_for_label }}">End time: </label>
+                {{form.end_time}}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
   </div>
 </div>
 

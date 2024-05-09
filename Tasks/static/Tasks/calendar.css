@@ -40,6 +40,20 @@
   flex: 1;
 }
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#eventAdder {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 10px;
+}
+
 @media only screen and (max-width:1000px) {
   #calendar, .calendar_head {
     max-width: 600px;

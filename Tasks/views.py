@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from .models import User, Task
-from .forms import NewTaskForm
+from .models import User, Task, CalendarEvent, Day
+from .forms import NewTaskForm, NewEventForm
 import json
 
 import pandas as pd
@@ -137,10 +137,6 @@ def list_completed(request):
         })
     else:
         return HttpResponseRedirect(reverse("index"))
-
-
-def load_calendar(request):
-    return render(request, "Tasks/calendar.html")
 
 # Define newTask.
 # If newTask has end date, show it!
@@ -273,6 +269,7 @@ def find_month(int):
               "Nov", "Dec"]
     return months[int - 1]
 
+@login_required
 def load_calendar(request):
     start_date, end_date = get_six_weeks_around_today()
     month = find_month(datetime.date.today().month)
@@ -281,7 +278,28 @@ def load_calendar(request):
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
         "end_date": end_date,
+        "form": NewEventForm(),
         "month_dates": json.dumps(month_view_dates),
         "month": month,
         "year": datetime.date.today().year
     })
+
+@login_required
+def new_event(request):
+    user = User.objects.get(id=request.user.id)
+    if request.method == "POST":
+        form = NewEventForm(request.POST)
+
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            date = form.cleaned_data["date"]
+            start_time = form.cleaned_data["start_time"]
+            end_time = form.cleaned_data["end_time"]
+        
+        new_event = CalendarEvent(user=user, title=title,
+                        date=date,
+                        start_time=start_time,
+                        end_time=end_time)
+        new_event.save()
+        
+        return HttpResponseRedirect(reverse("calendar"))
