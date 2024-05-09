@@ -216,29 +216,35 @@
         );  
     };
 
-    const Week = (props) =>{
+    const Week = ({ dates }) =>{
         return (
             <div class="row">
-                    <div class="col-2 p-3 border"> Mon </div>
-                    <div class="col-2 p-3 border"> Tue </div>
-                    <div class="col-2 p-3 border"> Wed </div>
-                    <div class="col-2 p-3 border"> Thu </div>
-                    <div class="col-2 p-3 border"> Fri </div>
-                    <div class="col-1 p-3 border"> Sat </div>
-                    <div class="col-1 p-3 border"> Sun </div>
+                {dates.map((date, index) => (
+                    <div key={index} className="col p-3 border">
+                        {date.toLocaleDateString("en-US", { day: "numeric" })} {/* Display day of the week and date */}
+                    </div>
+                ))}
             </div>
         )
     };
 
     // Define 'Month' as 6 weeks.
-    const Month = (props) => {
+    const Month = ({ monthDates }) => {
+        // Convert JSON string of dates back to date objects
+        const parsedMonthDates = JSON.parse(monthDates).map(dateStr => new Date(dateStr));
+        console.log("month Dates:", monthDates)
+        console.log("Date objects: ", parsedMonthDates)
         const weeks = [];
+        // Define the 6 seperate weeks
         for (let i = 0; i < 6; i++) {
-          weeks.push(<Week key={i} />); // Add key prop with unique value (i)
+            const startIdx = i * 7;
+            const endIdx = startIdx + 7;
+            weeks.push(<Week key={i} dates={parsedMonthDates.slice(startIdx, endIdx)} />); // Slice the 7 days for each of the six weeks.
         }
+        // Return an array of the 6 seperate weeks.
         return (
-            <div class="calendar_container">
-                {weeks}  {/* Render the weeks array */}
+            <div className="calendar_container">
+                {weeks}
             </div>
         );
       };

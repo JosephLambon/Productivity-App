@@ -241,6 +241,8 @@ def update_task(request):
     
 # CALENDAR 
 
+# Finds the Monday of week containing 1st of current month
+# Finds the Sunday of the week containing final day of current month
 def get_six_weeks_around_today():
     # Get today's date
     today = datetime.date.today()
@@ -265,21 +267,13 @@ def get_six_weeks_around_today():
 
     return start_date, end_date
 
-# Define a new view, to find today's date,
-# then find on which day the 1st and last day of that month falls
-# Then, get the 42 days between the Monday of the
-# Week containing the 1st, and the Sunday of the week
-# containing the 28th-31st of that month.
 def load_calendar(request):
     start_date, end_date = get_six_weeks_around_today()
-    month_view_dates = pd.date_range(start_date, periods=42)
-    print(month_view_dates)
+    month_view_dates = pd.date_range(start_date, periods=42).strftime('%Y-%m-%d').tolist()
+    print(json.dumps(month_view_dates))
 
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
-        "end_date": end_date
+        "end_date": end_date,
+        "month_dates": json.dumps(month_view_dates)
     })
-
-    
-
-

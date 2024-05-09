@@ -6,12 +6,23 @@
   
       <p>Start date: {{start_date}}</p>
       <p>End date: {{end_date}}</p>
+  <div id="calendar_head">
+    <div class="row">
+      <div class="col border mont-bold">Mon</div>
+      <div class="col border mont-bold">Tue</div>
+      <div class="col border mont-bold">Wed</div>
+      <div class="col border mont-bold">Thu</div>
+      <div class="col border mont-bold">Fri</div>
+      <div class="col border mont-bold">Sat</div>
+      <div class="col border mont-bold">Sun</div>
+    </div>
+  </div>
   <div id="calendar">
-
   </div>
 </div>
 
 <script type="text/babel">
-    ReactDOM.render(<Month />, document.querySelector('#calendar'));
+    ReactDOM.render(<Month monthDates="{{ month_dates }}" />, document.querySelector('#calendar'));
+    </script>
 </script>
 {% endblock %}

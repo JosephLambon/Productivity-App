@@ -13,10 +13,13 @@
   }  
 
 
-#calendar {
+#calendar, #calendar_head {
     max-width: 80%;
     margin: 0 auto;
-    margin-top: 5vh;
+}
+
+#calendar_head {
+  margin-top: 5vh;
 }
 
 .border {
