@@ -47,6 +47,26 @@
   margin-bottom: 20px;
 }
 
+.position-relative {
+  position: relative;
+}
+
+.event-counter {
+  position: absolute;
+  top: 40px; /* Adjust this value to align the counter at the desired position */
+  left: 15px; /* Adjust this value to align the counter at the desired position */
+  background-color: rgb(8, 136, 255);
+  color: white;
+  border-radius: 50%; /* Makes a small red circle */
+  width: 20px; /* Adjust this value to change the size of the circle */
+  height: 20px; /* Adjust this value to change the size of the circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+
 #eventAdder {
   padding: 5px;
   padding-left: 10px;
@@ -63,6 +83,14 @@
 @media only screen and (max-width:600px) {
   #calendar, .calendar_head {
     max-width: 300px;
+  }
+
+  .event-counter {
+    top: 40px; /* Adjust this value to align the counter at the desired position */
+    left: 15px; /* Adjust this value to align the counter at the desired position */
+    width: 14px; /* Adjust this value to change the size of the circle */
+    height: 14px; /* Adjust this value to change the size of the circle */
+    font-size: 10px;
   }
 }
 

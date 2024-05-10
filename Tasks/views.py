@@ -13,6 +13,7 @@ import json
 import pandas as pd
 import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator
 
@@ -269,19 +270,88 @@ def find_month(int):
               "Nov", "Dec"]
     return months[int - 1]
 
+def serialise_events(calendar_events):
+    # for task in tasks:
+    #     if task.target_date != None:
+    #         task.target_date = task.target_date.strftime('%d %b')
+    # Serialisation allows us to transfer and store the
+    # posts data in a way that remains accessible in JSX
+    # AKA translates our Django 'Post' model data.
+    # See defined natural key in models.py . By default, returns User ID, which is unhelpful.
+    s_events = [
+        {
+            'user': event.user.natural_key(),
+            'title': event.title,
+            'date': event.date,
+            'start_time': event.start_time,
+            'end_time': event.end_time,
+            'id': event.id,
+            'created': event.created
+        }
+        for event in calendar_events
+    ]
+
+    # Serialize list of dictionary's defined above for each post into JSON string.
+    # DjangoJSONEncoder allows serialisation of datetime objects.
+    serialized_events = json.dumps(s_events, cls=DjangoJSONEncoder)
+    return serialized_events
+
+def sort_days(request, month_dates, events):
+
+    user = User.objects.get(id=request.user.id)
+    month_days = []
+
+    for day in month_dates:
+        try:
+            day = Day.objects.get(date=day)
+        except ObjectDoesNotExist:
+            day = Day(date=day, user=request.user)
+
+        for event in events:
+            if day.date == event.date:
+                day.events.add(event)
+        
+        day.save()
+        month_days.append(day)
+    
+    return month_days
+
+def serialise_days(days):
+    s_days = [
+        {
+            'user': day.user.natural_key(),
+            'date': day.date,
+            'events': list(day.events.values()),
+            'id': day.id,
+        }
+        for day in days
+    ]
+
+    # Serialize list of dictionary's defined above for each post into JSON string.
+    # DjangoJSONEncoder allows serialisation of datetime objects.
+    serialised_days = json.dumps(s_days, cls=DjangoJSONEncoder)
+    return serialised_days
+
+
 @login_required
 def load_calendar(request):
     start_date, end_date = get_six_weeks_around_today()
     month = find_month(datetime.date.today().month)
     month_view_dates = pd.date_range(start_date, periods=42).strftime('%Y-%m-%d').tolist()
 
+    user = User.objects.get(id=request.user.id)
+    events = CalendarEvent.objects.filter(user=request.user)
+    month_days = sort_days(request, month_view_dates, events)
+    parseable_month_days = serialise_days(month_days)
+    print(parseable_month_days)
+
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
         "end_date": end_date,
         "form": NewEventForm(),
-        "month_dates": json.dumps(month_view_dates),
+        "month_dates": parseable_month_days,
         "month": month,
-        "year": datetime.date.today().year
+        "year": datetime.date.today().year,
     })
 
 @login_required

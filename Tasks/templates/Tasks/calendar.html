@@ -57,10 +57,18 @@
         </form>
     </div>
   </div>
+
 </div>
 
 <script type="text/babel">
-    ReactDOM.render(<Month monthDates="{{ month_dates }}" />, document.querySelector('#calendar'));
+   function renderDates() {
+      const monthDays = JSON.parse('{{ month_dates|safe|escapejs }}');
+      return monthDays;
+   }
+    const monthDays = renderDates();
+    
+  
+    ReactDOM.render(<Month monthDates={monthDays} />, document.querySelector('#calendar'));
     </script>
 </script>
 {% endblock %}
