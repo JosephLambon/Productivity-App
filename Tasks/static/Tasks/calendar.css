@@ -16,10 +16,22 @@
   overflow: auto;
   height: 60vh;
   border: solid 1px rgba(0, 0, 0, 0.051);
+  background-color: rgba(0, 153, 255, 0.04);
+  padding: 20px;
 }
 
-.heighten {
-  height: 200px;
+.top-border {
+  border-top: 1px rgba(0, 0, 0, 0.444) solid;
+  margin-top: 5px;
+}
+
+.other-top-border {
+  border-top: 1px rgba(0, 0, 0, 0.12) dashed;
+  margin-top: 5px;
+}
+
+.daySegment {
+  height: 20px;
 }
 
 .calendar_head {
@@ -28,7 +40,7 @@
 }
 
 #calendar_top {
-  margin-top: 5vh;
+  margin-top: 60px;
 }
 
 .border {
@@ -47,6 +59,10 @@
 
 .calendar_head .col {
   flex: 1;
+}
+
+#cal_headers {
+  height: 3vh;
 }
 
 .header-container {

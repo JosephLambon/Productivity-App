@@ -2,6 +2,9 @@
 
 {% block body %}
 <div class="container">
+    <div style='margin-bottom: 30px;'>
+        <a href='{% url 'calendar' %}'>< back </a>
+    </div>
     <div id="day_head">
         <h1 style="margin-bottom: 0;"><strong>{{ header_date.date|date:"j M" }}</strong> {{ header_date.date|date:"Y" }}</h1>
         <h4 style="margin-bottom: 20px; margin-top: 0;">{{ header_date.date|date:"l" }}<h4>
@@ -15,5 +18,8 @@
     const dayData = JSON.parse('{{ day|safe }}');
 
     ReactDOM.render(<Day />, document.querySelector('#dayViewContainer'));
+
+    // Scroll to the 6AM on initial render
+    document.getElementById('list-item-24').scrollIntoView();
 </script>
 {% endblock %}

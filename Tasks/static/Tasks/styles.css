@@ -72,9 +72,11 @@
 }
 
 #nav_bar_top {
+    
     padding-left: 2%;
     padding-right: 20px;
     padding-bottom: 0;
+    
 }
 
 .registerForm {
@@ -240,7 +242,7 @@ button.accordion-button:focus{
 .tasks_container {
     margin-top: 2vh;
     border-radius: 5px;
-    background-color: rgb(240, 238, 238);
+    background-color: rgb(240, 238, 238);   
     padding: 5px;
     max-width: 100%;
     margin-left: 0 auto;

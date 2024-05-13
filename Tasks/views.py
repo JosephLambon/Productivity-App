@@ -213,11 +213,12 @@ def edit_task(request, task_id):
     edit_task_form = NewTaskForm(initial=initial_data)
     return render(request, "Tasks/edit.html", {
         "task": task,
-        "new_task_form": edit_task_form
+        "new_task_form": edit_task_form,
+        "task_id": task_id
     })
 
 @login_required
-def update_task(request):
+def update_task(request, task_id):
     user = User.objects.get(id=request.user.id)
     
     if request.method == "POST":
@@ -228,7 +229,7 @@ def update_task(request):
             target_date = form.cleaned_data["target_date"]
             target_time = form.cleaned_data["target_time"]
         
-        task = Task.objects.get(task=task_title, user=user)
+        task = Task.objects.get(id=task_id, user=user)
         task.task = task_title
         task.target_date = target_date
         task.target_time = target_time
@@ -398,7 +399,7 @@ def day_view(request, day_id):
         day_json = json.dumps(day_data, cls=DjangoJSONEncoder)
         return render(request, 'Tasks/day.html', {
             'day': day_json,
-            'header_date': day_data.date
+            'header_date': day_data
             })
     except Day.DoesNotExist:
         return HttpResponseNotFound("Day not found")

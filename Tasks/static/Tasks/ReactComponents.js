@@ -217,20 +217,36 @@
     };
 
     const Day = ({dayEvents}) => {
+        const time_array = [];
+        const hrs = ["12 AM", "6 AM", "12 PM", "6 PM"];
+        for (let i=0; i < 24; i++) {
+            for (let j=0; j < 4; j++) {
+                time_array.push(`${i}:${j === 0 ? `00` : 15*j}`);
+            }
+        }
+        
         return (
             <div class="row">
                 <div class="col-4">
                 <div id="list-example" class="list-group">
-                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
-                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                    <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                    <a class="list-group-item list-group-item-action" href={`#list-item-1`}>12am</a>
+                    <a class="list-group-item list-group-item-action" href={`#list-item-24`}>6am</a>
+                    <a class="list-group-item list-group-item-action" href={`#list-item-48`}>12pm</a>
+                    <a class="list-group-item list-group-item-action" href={`#list-item-72`}>6pm</a>
                 </div>
                 </div>
                 <div class="col-8">
                 <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-                    <h5 class='heighten' id="list-item-1">Item 1</h5>
-                    <p>...</p>
+                {time_array.map((time, index) => (
+                        <div class="daySegment" key={index} id={`hr_${time.split(':')[0]}-min_${time.split(':')[1]}`}>
+                            {time.split(':')[1] === '00' ? (
+                            <h5 class='top-border' id={`list-item-${index + 1}`} autoFocus={index === 23}>{time}</h5>
+                            ) : (
+                            <h5 class='other-top-border'id={`list-item-${index + 1}`}></h5>
+                            )}
+                            <p></p>
+                        </div>
+                    ))}
                 </div>
                 </div>
             </div>
