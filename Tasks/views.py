@@ -373,3 +373,11 @@ def new_event(request):
         new_event.save()
         
         return HttpResponseRedirect(reverse("calendar"))
+    
+@login_required
+def day_view(request, day_id):
+    day = Day.objects.get(user=request.user, id=day_id)
+    print("Date: ", day.date)
+    # parseableDay = serialise_days(day)
+    # print("serialised: ", parseableDay)
+    return render(request, 'Tasks/day.html')

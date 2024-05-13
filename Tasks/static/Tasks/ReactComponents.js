@@ -104,7 +104,7 @@
                     console.error('Fetch error:', error);
                 });
                 audio.play();
-            };
+        };
 
         const Uncomplete = () => {
             const item = document.getElementById('taskContainer_' + props.id);
@@ -216,24 +216,39 @@
         );  
     };
 
-    const Week = ({ dates, events }) =>{
+    const Week = ({ dates, events, ids }) =>{
         
-        const handleDayClick = (date, event_list) => {
-            let msg = "Events for " + date.toLocaleDateString() + ":\n";
+        const handleDayClick = (date, dayID) => {
+            // let msg = "Events for " + date.toLocaleDateString() + ":\n";
 
-            event_list.forEach(event => {
-                msg += "Title: " + event.title + "\n";
-                msg += "Start Time: " + event.start_time + "\n\n";
-            });
+            // event_list.forEach(event => {
+            //     msg += "Title: " + event.title + "\n";
+            //     msg += "Start Time: " + event.start_time + "\n\n";
+            // });
 
-        alert(msg);
-        }
+            // alert(msg);
+
+            let django_url = `/day-view/${dayID}`;
+            fetch(django_url)
+                .then(response => {
+                    // Handle the response here, for example:
+                    if (response.ok) {
+                        // If the response is OK, you might redirect or update the UI
+                        window.location.href = django_url;
+                    } else {
+                        // Handle errors here
+                    }
+                })
+                .catch(error => {
+                    // Handle fetch errors here
+                });
+            }
 
         return (
             <div class="row">
                 {dates.map((date, index) => (
                         <div key={index} className={"col p-3 border position-relative" + (date.toDateString() === new Date().toDateString() ? " today mont-bold" : "")}
-                        onClick={() => handleDayClick(date, events[index])}>
+                        onClick={() => handleDayClick(date, ids[index])}>
                             {date.toLocaleDateString("en-US", { day: "numeric" })} {/* Display day of the week and date */}
                         <br/>
                         {events[index] && events[index].length > 0 && ( // Check if events exist and its length is greater than 0
@@ -253,8 +268,9 @@
     const Month = ({ monthDates }) => {
         const datesOnly = monthDates.map(item => new Date(item.date));
         const eventsOnly = monthDates.map(item => item.events);
+        const dayIdOnly = monthDates.map(item => item.id);
         
-        console.log(eventsOnly[20].length);
+        console.log(dayIdOnly[20]);
 
         const weeks = [];
 
@@ -262,7 +278,8 @@
         for (let i = 0; i < 6; i++) {
             const startIdx = i * 7;
             const endIdx = startIdx + 7;
-            weeks.push(<Week key={i} dates={datesOnly.slice(startIdx, endIdx)} events={eventsOnly.slice(startIdx, endIdx)} />); // Slice the 7 days for each of the six weeks.
+            weeks.push(<Week key={i} dates={datesOnly.slice(startIdx, endIdx)} events={eventsOnly.slice(startIdx, endIdx)} ids={dayIdOnly.slice(startIdx, endIdx)} 
+            id={dayIdOnly.slice(startIdx, endIdx)} />); // Slice the 7 days for each of the six weeks.
         }
 
         

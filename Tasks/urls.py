@@ -34,4 +34,5 @@ urlpatterns = [
     path('update-task/', views.update_task, name="update_task"),
     path('delete-task/', views.delete_task, name="delete_task"),
     path('new_event/', views.new_event, name="new_event"),
+    path('day-view/<int:day_id>', views.day_view, name="day_view")
 ]
