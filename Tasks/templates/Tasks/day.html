@@ -1,6 +1,19 @@
 {% extends 'Tasks/layout.html' %}
 
 {% block body %}
-    <h1>{{ day.date }}</h1>
-    <p> {{day.events}}</p>
+<div class="container">
+    <div id="day_head">
+        <h1 style="margin-bottom: 0;"><strong>{{ header_date.date|date:"j M" }}</strong> {{ header_date.date|date:"Y" }}</h1>
+        <h4 style="margin-bottom: 20px; margin-top: 0;">{{ header_date.date|date:"l" }}<h4>
+    </div>
+        
+    <div class="scroll_container" id="dayViewContainer">
+    </div>
+</div>
+
+<script type="text/babel">
+    const dayData = JSON.parse('{{ day|safe }}');
+
+    ReactDOM.render(<Day />, document.querySelector('#dayViewContainer'));
+</script>
 {% endblock %}

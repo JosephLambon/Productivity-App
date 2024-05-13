@@ -307,9 +307,11 @@ def sort_days(request, month_dates, events):
         except ObjectDoesNotExist:
             day = Day(date=day, user=request.user)
 
-        for event in events:
-            if day.date == event.date:
-                day.events.add(event)
+        # Filter events for the current day
+        day_events = events.filter(date=day.date)
+
+        for event in day_events:
+            day.events.add(event)
         
         day.save()
         month_days.append(day)
@@ -318,14 +320,14 @@ def sort_days(request, month_dates, events):
 
 def serialise_days(days):
     s_days = [
-        {
-            'user': day.user.natural_key(),
-            'date': day.date,
-            'events': list(day.events.values()),
-            'id': day.id,
-        }
-        for day in days
-    ]
+            {
+                'user': day.user.natural_key(),
+                'date': day.date,
+                'events': list(day.events.values()),
+                'id': day.id,
+            }
+            for day in days
+        ]
 
     # Serialize list of dictionary's defined above for each post into JSON string.
     # DjangoJSONEncoder allows serialisation of datetime objects.
@@ -343,7 +345,6 @@ def load_calendar(request):
     events = CalendarEvent.objects.filter(user=request.user)
     month_days = sort_days(request, month_view_dates, events)
     parseable_month_days = serialise_days(month_days)
-    print(parseable_month_days)
 
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
@@ -376,8 +377,28 @@ def new_event(request):
     
 @login_required
 def day_view(request, day_id):
-    day = Day.objects.get(user=request.user, id=day_id)
-    print("Date: ", day.date)
-    # parseableDay = serialise_days(day)
-    # print("serialised: ", parseableDay)
-    return render(request, 'Tasks/day.html')
+    try:
+        day = Day.objects.get(user=request.user, id=day_id)
+        # Serialize datetime objects to string
+        day_data = {
+            'user': day.user.username,
+            'date': day.date,
+            'events': [
+                {
+                    'id': event.id,
+                    'title': event.title,
+                    'date': event.date,
+                    'start_time': event.start_time.strftime('%H:%M'),
+                    'end_time': event.end_time.strftime('%H:%M'),
+                    'created': event.created.strftime('%Y-%m-%dT%H:%M:%S')
+                }
+                for event in day.events.all()
+            ]
+        }
+        day_json = json.dumps(day_data, cls=DjangoJSONEncoder)
+        return render(request, 'Tasks/day.html', {
+            'day': day_json,
+            'header_date': day_data.date
+            })
+    except Day.DoesNotExist:
+        return HttpResponseNotFound("Day not found")

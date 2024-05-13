@@ -216,18 +216,30 @@
         );  
     };
 
+    const Day = ({dayEvents}) => {
+        return (
+            <div class="row">
+                <div class="col-4">
+                <div id="list-example" class="list-group">
+                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                </div>
+                </div>
+                <div class="col-8">
+                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                    <h5 class='heighten' id="list-item-1">Item 1</h5>
+                    <p>...</p>
+                </div>
+                </div>
+            </div>
+        )
+    }
+
     const Week = ({ dates, events, ids }) =>{
         
         const handleDayClick = (date, dayID) => {
-            // let msg = "Events for " + date.toLocaleDateString() + ":\n";
-
-            // event_list.forEach(event => {
-            //     msg += "Title: " + event.title + "\n";
-            //     msg += "Start Time: " + event.start_time + "\n\n";
-            // });
-
-            // alert(msg);
-
             let django_url = `/day-view/${dayID}`;
             fetch(django_url)
                 .then(response => {
