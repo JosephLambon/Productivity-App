@@ -21,8 +21,18 @@
 }
 
 .top-border {
-  border-top: 1px rgba(0, 0, 0, 0.444) solid;
+  border-top: 2px rgba(0, 0, 0, 0.215) dashed;
   margin-top: 5px;
+}
+
+.time {
+  font-size: 16px;
+}
+
+.calendar-event {
+  background-color: rgba(0, 94, 255, 0.377);
+  margin: 0;
+  padding: 1px;
 }
 
 .other-top-border {
@@ -37,6 +47,21 @@
 .calendar_head {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.event-top-border {
+  border-top: solid rgba(0, 0, 0, 0.6) 1px;
+  border-radius: 5%;
+}
+
+.event-side-border {
+  border-right: solid rgba(0, 0, 0, 0.6) 1px;
+  border-left: solid rgba(0, 0, 0, 0.6) 1px;
+}
+
+.event-bottom-border {
+  border-bottom: solid rgba(0, 0, 0, 0.6) 1px;
+  border-radius: 5%;
 }
 
 #calendar_top {

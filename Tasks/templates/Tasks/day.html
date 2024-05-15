@@ -15,8 +15,9 @@
 </div>
 
 <script type="text/babel">
+    // Parse in day's JSON data
     const dayData = JSON.parse('{{ day|safe }}');
-
+    // Render dayView React component
     ReactDOM.render(<Day dayEvents={dayData.events} />, document.querySelector('#dayViewContainer'));
 
     // Scroll to the 6AM on initial render
@@ -35,7 +36,7 @@
         return closest_min;
     }
 
-    function visual_startTime(hour, nearest_found_mins) {
+    function visual_TimeFinder(hour, nearest_found_mins) {
         const nearest_fifteen = nearest_found_mins;
         let starting_minute = '';
         let starting_hour = hour;
@@ -56,28 +57,68 @@
         return visualStartTime;
     }
 
+    function get_VisualPoints(event) {
+        // Get start time
+        let start_time = event.start_time;
+        let st_minute = start_time.split(':')[1];
+        st_minute = Number(st_minute);
+        let st_hour = start_time.split(':')[0];
+        st_hour = Number(st_hour);
+        const nearest_st_min = find_nearestMinutes(st_minute);
+        // Find nearest 15 min block to start time
+        // So can start visual event here.
+        // (dayViewContainer rendered in 15 min blocks)
+        const visualStartTime = visual_TimeFinder(st_hour, nearest_st_min);
+        // Get end time
+        let end_time = event.end_time;
+        let et_minute = end_time.split(':')[1];
+        et_minute = Number(et_minute);
+        let et_hour = end_time.split(':')[0];
+        et_hour = Number(et_hour);
+        const nearest_et_min = find_nearestMinutes(et_minute);
+        // Find nearest 15 min block to start time
+        // So can start visual event here.
+        // (dayViewContainer rendered in 15 min blocks)
+        const visualEndTime = visual_TimeFinder(et_hour, nearest_et_min);
+        return [visualStartTime, visualEndTime];
+    }
+
     // Render events to the dayViewContainer
     function renderEvents() {
         const events = dayData.events;
 
-        
         for (const event of events) {
-            let start_time = event.start_time;
-            let st_minute = start_time.split(':')[1];
-            st_minute = Number(st_minute);
-            
-            let st_hour = start_time.split(':')[0];
-            st_hour = Number(st_hour);
+            let visualStartTime = get_VisualPoints(event)[0];
+            let visualEndTime = get_VisualPoints(event)[1];
+            console.log("Event: ", event);
+            console.log("Start: ", visualStartTime);
+            console.log("End: ", visualEndTime);
 
-            let end_time = event.end_time;
+             // Find the divs corresponding to the start and end times
+            const startDiv = document.getElementById(`hr_${visualStartTime.split(":")[0]}-min_${visualStartTime.split(":")[1]}`);
+            const endDiv = document.getElementById(`hr_${visualEndTime.split(":")[0]}-min_${visualEndTime.split(":")[1]}`);
             
-            console.log("event: ", event);
-            console.log("Start minute: ", st_minute);
-            console.log("Nearest fifteen: ", find_nearestMinutes(st_minute));
+            // Iterate over the divs between start and end times
+            let currentDiv = startDiv.nextElementSibling;
+            // Add title to top of event (First one after start time)
+            currentDiv.innerHTML = `<h5 class="event-title">${event.title}</h5>`;
+            while (currentDiv !== endDiv) {
+                // Update inner HTML and adjust CSS styling
+                currentDiv.classList.add('calendar-event');
+                currentDiv.classList.add('event-side-border');
+                currentDiv = currentDiv.nextElementSibling;
+            }
 
-            const nearest_min = find_nearestMinutes(st_minute);
-            console.log("Visual start time: ", visual_startTime(st_hour, nearest_min));
+            // Add top and bottom borders to the event
+            {% comment %} startDiv.classList.add('event-top-border');
+            startDiv.classList.add('event-side-border');
+            endDiv.classList.add('event-bottom-border');
+            endDiv.classList.add('event-side-border'); {% endcomment %}
+
+
         }
+
+
     }
 
     renderEvents();

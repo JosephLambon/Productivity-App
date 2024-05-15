@@ -241,9 +241,9 @@
                 {time_array.map((time, index) => (
                         <div class="daySegment" key={index} id={`hr_${time.split(':')[0]}-min_${time.split(':')[1]}`}>
                             {time.split(':')[1] === '00' ? (
-                            <h5 class='top-border' id={`list-item-${index + 1}`} autoFocus={index === 23}>{time}</h5>
+                            <h5 class='top-border time' id={`list-item-${index + 1}`} autoFocus={index === 23}>{time}</h5>
                             ) : (
-                            <h5 class='other-top-border'id={`list-item-${index + 1}`}></h5>
+                            <h5 class='other-top-border time'id={`list-item-${index + 1}`}></h5>
                             )}
                             <p></p>
                         </div>
