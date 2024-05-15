@@ -36,6 +36,7 @@
   background-color: rgba(0, 136, 255, 0.377);
   margin: 0;
   padding: 1px;
+  margin-right: 10px;
 }
 
 .event-title {
@@ -104,6 +105,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  margin-right: 10px;
 }
 
 .position-relative {
