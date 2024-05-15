@@ -17,9 +17,69 @@
 <script type="text/babel">
     const dayData = JSON.parse('{{ day|safe }}');
 
-    ReactDOM.render(<Day />, document.querySelector('#dayViewContainer'));
+    ReactDOM.render(<Day dayEvents={dayData.events} />, document.querySelector('#dayViewContainer'));
 
     // Scroll to the 6AM on initial render
     document.getElementById('list-item-24').scrollIntoView();
+
+    function find_nearestMinutes(minute) {
+        const quarters = [0,15,30,45,60];
+        // Find absolute differences between 'quarters' values and the minute
+        const calc = quarters.map(n => Math.abs(n - minute));
+        const minDistance = Math.min(...calc); // '...' spread syntax passes the array of numbers as seperate numbers
+        const closestIndex = calc.indexOf(minDistance);
+        let closest_min = quarters[closestIndex];
+        closest_min = String(closest_min);
+        
+        // Return the 'minute' string
+        return closest_min;
+    }
+
+    function visual_startTime(hour, nearest_found_mins) {
+        const nearest_fifteen = nearest_found_mins;
+        let starting_minute = '';
+        let starting_hour = hour;
+        
+        if (nearest_fifteen == 60) {
+            starting_hour = hour + 1;
+            starting_minute = '00';
+        } else if (nearest_fifteen == 0) {
+            starting_hour = hour;
+            starting_minute = "00";
+        } else {
+            starting_hour = hour;
+            starting_minute = String(nearest_fifteen);
+        }
+
+        const visualStartTime = String(starting_hour) + ":" + starting_minute;
+        
+        return visualStartTime;
+    }
+
+    // Render events to the dayViewContainer
+    function renderEvents() {
+        const events = dayData.events;
+
+        
+        for (const event of events) {
+            let start_time = event.start_time;
+            let st_minute = start_time.split(':')[1];
+            st_minute = Number(st_minute);
+            
+            let st_hour = start_time.split(':')[0];
+            st_hour = Number(st_hour);
+
+            let end_time = event.end_time;
+            
+            console.log("event: ", event);
+            console.log("Start minute: ", st_minute);
+            console.log("Nearest fifteen: ", find_nearestMinutes(st_minute));
+
+            const nearest_min = find_nearestMinutes(st_minute);
+            console.log("Visual start time: ", visual_startTime(st_hour, nearest_min));
+        }
+    }
+
+    renderEvents();
 </script>
 {% endblock %}

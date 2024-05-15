@@ -217,6 +217,7 @@
     };
 
     const Day = ({dayEvents}) => {
+        console.log(dayEvents);
         const time_array = [];
         const hrs = ["12 AM", "6 AM", "12 PM", "6 PM"];
         for (let i=0; i < 24; i++) {
