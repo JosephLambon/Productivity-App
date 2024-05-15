@@ -5,22 +5,23 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Tasks</h1>
 
+            {% if page_obj.has_previous or page_obj.has_next %}
             <nav aria-label="Page navigation" id="nav_drop">
               <div class="dropdown">
                 <a class="btn blue_btn dropdown-toggle unlink p-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="drop_btn">
                   Tasks
                 </a>
-              
-                <ul class="dropdown-menu">
+                  <ul class="dropdown-menu">
                   {% if page_obj.has_previous %}
                       <li class="page-item"><a class="dropdown-item unlink p-2" href="?page={{ page_obj.previous_page_number }}">Previous 10 tasks</a></li>
                   {% endif %}
                   {% if page_obj.has_next %}
-                      <li class="page-item"><a class="page-link dropdown-item unlink p-2" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>
+                      <li class="page-item"><a class="page-link dropdown-item unlink p-2" href="?page={{ page_obj.next_page_number }}">Next 10 tasks</a></li>  
                   {% endif %}
-                </ul>
-            </nav>
-          </div>
+                    </ul>
+                  </nav>
+              {% endif %}
+                </div>
         {% if user.is_authenticated %}
           <div id="tasks_section">
             
