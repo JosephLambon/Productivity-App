@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -354,6 +354,7 @@ def load_calendar(request):
         "month_dates": parseable_month_days,
         "month": month,
         "year": datetime.date.today().year,
+        "today": Day.objects.get(user=request.user, date=datetime.date.today())
     })
 
 @login_required
@@ -380,6 +381,9 @@ def new_event(request):
 def day_view(request, day_id):
     try:
         day = Day.objects.get(user=request.user, id=day_id)
+        yesterday_id = int(day_id) - 1
+        tomorrow_id = int(day_id) + 1
+        
         # Serialize datetime objects to string
         day_data = {
             'user': day.user.username,
@@ -399,7 +403,9 @@ def day_view(request, day_id):
         day_json = json.dumps(day_data, cls=DjangoJSONEncoder)
         return render(request, 'Tasks/day.html', {
             'day': day_json,
-            'header_date': day_data
+            'header_date': day_data,
+            'tomorrow_id': tomorrow_id,
+            'yesterday_id': yesterday_id
             })
     except Day.DoesNotExist:
         return HttpResponseNotFound("Day not found")

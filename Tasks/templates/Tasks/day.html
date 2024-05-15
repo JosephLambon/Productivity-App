@@ -5,10 +5,26 @@
     <div style='margin-bottom: 30px;'>
         <a href='{% url 'calendar' %}'>< back </a>
     </div>
-    <div id="day_head">
-        <h1 style="margin-bottom: 0;"><strong>{{ header_date.date|date:"j M" }}</strong> {{ header_date.date|date:"Y" }}</h1>
-        <h4 style="margin-bottom: 20px; margin-top: 0;">{{ header_date.date|date:"l" }}<h4>
-    </div>
+    
+        <div class="header-container">
+            <div id="day_head">
+                <h1 style="margin-bottom: 0;"><strong>{{ header_date.date|date:"j M" }}</strong> {{ header_date.date|date:"Y" }}</h1>
+                <h4 style="margin-bottom: 20px; margin-top: 0;">{{ header_date.date|date:"l" }}<h4>
+                <div class="btn-group">
+                    {% if yesterday_id > 0 %}
+                        <a href="{% url 'day_view' yesterday_id %}" class="btn btn-primary" aria-current="page"> < </a>
+                    {% endif %}
+                    {% if tomorrow_id < 43 %}
+                    <a href="{% url 'day_view' tomorrow_id %}" class="btn btn-primary" aria-current="page"> > </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="{% url 'calendar' %}" class="btn btn-primary" aria-current="page">Month</a>
+                <a href="#" class="btn btn-primary active" aria-current="page">Day</a>
+            </div>
+        </div>
+    
         
     <div class="scroll_container" id="dayViewContainer">
     </div>

@@ -12,6 +12,8 @@
     font-style: normal;
   }  
 
+.emphasised { font-style: italic; }
+
 .scrollspy-example {
   overflow: auto;
   height: 60vh;
@@ -30,7 +32,7 @@
 }
 
 .calendar-event {
-  background-color: rgba(0, 94, 255, 0.377);
+  background-color: rgba(0, 136, 255, 0.377);
   margin: 0;
   padding: 1px;
 }

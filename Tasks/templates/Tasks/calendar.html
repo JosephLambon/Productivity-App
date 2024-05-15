@@ -2,7 +2,16 @@
 
 {% block body %}
 <div class="container">
-  <h1>Calendar</h1>
+  <div class="header-container">
+    <div id="day_head">
+      <h1>Calendar</h1>
+      <p><span class="emphasised">Tip: Click on a day to load that day's schedule in detail.</span></p>
+    </div>
+    <div class="btn-group">
+      <a href="#" class="btn btn-primary active" aria-current="page">Month</a>
+      <a href="{% url 'day_view' today.id %}" class="btn btn-primary">Day</a>
+    </div>
+  </div>
   
   <div class="calendar_head" id="calendar_top">
     <div class="header-container">
