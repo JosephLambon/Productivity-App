@@ -3,7 +3,13 @@
 {% block body %}
 <div class="container">
     <div style='margin-bottom: 30px;'>
-        <a href='{% url 'calendar' %}'>< back </a>
+        <div class="header-container" style="margin-top:90px;">
+            <a href='{% url 'calendar' %}'>< back </a>
+            <div class="btn-group">
+                <a href="{% url 'calendar' %}" class="btn btn-primary" aria-current="page">Month</a>
+                <a href="#" class="btn btn-primary active" aria-current="page">Day</a>
+            </div>
+        </div>
     </div>
     
         <div class="header-container">
@@ -19,11 +25,48 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="btn-group">
-                <a href="{% url 'calendar' %}" class="btn btn-primary" aria-current="page">Month</a>
-                <a href="#" class="btn btn-primary active" aria-current="page">Day</a>
+            <div class="header-container">
+                <h3 style="margin-bottom: 15px;"> <strong>{{month}}</strong> {{year}} </h3>
+                <button class="blue_btn submit_btn" data-bs-target="#NewEventModalToggle" data-bs-toggle="modal" id="eventAdder">+ Add</button>
             </div>
         </div>
+
+        <div class="modal" id="NewEventModalToggle" tabindex="-1" aria-labelledby="NewEventModalToggleLabel">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title mont-bold">New Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="{% url 'new_event' %}" id="newEventForm" method="post">
+                    {% csrf_token %}
+                      <div class="modal-body">
+                        <div class="fieldWrapper" id="eventTitle">
+                          <label class="mont-bold" for="{{ form.title.id_for_label }}">Title:</label>
+                          {{form.title}}
+                        </div>
+                        <div class="fieldWrapper" id="endTime">
+                          <label for="{{ form.title.id_for_label }}" class="mont-bold">Date: </label>
+                          {{form.date}}
+                        </div>
+                        <div class="fieldWrapper" id="endTime">
+                          <label class="mont-bold" for="{{ form.title.id_for_label }}">Start time: </label>
+                          {{form.start_time}}
+                        </div>
+                        <div class="fieldWrapper">
+                          <label class="mont-bold" for="{{ form.title.id_for_label }}">End time: </label>
+                          {{form.end_time}}
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary">
+                      </div>
+                  </form>
+              </div>
+            </div>
+          
+          </div>
     
         
     <div class="scroll_container" id="dayViewContainer">

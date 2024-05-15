@@ -37,6 +37,10 @@
   padding: 1px;
 }
 
+.event-title {
+  font-size: 16px;
+}
+
 .other-top-border {
   border-top: 1px rgba(0, 0, 0, 0.12) dashed;
   margin-top: 5px;

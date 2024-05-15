@@ -405,7 +405,8 @@ def day_view(request, day_id):
             'day': day_json,
             'header_date': day_data,
             'tomorrow_id': tomorrow_id,
-            'yesterday_id': yesterday_id
+            'yesterday_id': yesterday_id,
+            "form": NewEventForm()
             })
     except Day.DoesNotExist:
         return HttpResponseNotFound("Day not found")
