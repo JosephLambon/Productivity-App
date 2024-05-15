@@ -14,7 +14,7 @@
 
 #nav_bar {
     max-width: 23vw;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 0 auto;
 }
 
@@ -199,14 +199,14 @@
     } 
 
 #tasks_section {
-    background-color: rgb(239, 239, 239);
+    background-color: rgba(248, 249, 250, 1.00);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 /* Styling the 'completed' accordion */
 .accordion-button:not(.collapsed) {
-    background-color: rgb(240, 238, 238);
+    background-color: rgba(248, 249, 250, 1.00);
     color: black;
     border: 0;
     border-bottom: 0;
@@ -215,7 +215,7 @@
 
 .accordion-button {
     border-radius: 10px 10px 5px 5px;
-    background-color: rgb(240, 238, 238);
+    background-color: rgba(248, 249, 250, 1.00);
     padding: 10px;
     border: 0;
     font-size:12px;
@@ -227,7 +227,7 @@ button.accordion-button:focus{
 }
 
 .accordion-item {
-    background-color: rgb(240, 238, 238);
+    background-color: rgba(248, 249, 250, 1.00);
     border: 0;
 }
 
@@ -242,7 +242,7 @@ button.accordion-button:focus{
 .tasks_container {
     margin-top: 2vh;
     border-radius: 5px;
-    background-color: rgb(240, 238, 238);   
+    background-color: rgba(248, 249, 250, 1.00);   
     padding: 5px;
     max-width: 100%;
     margin-left: 0 auto;
@@ -256,7 +256,7 @@ button.accordion-button:focus{
 @media only screen and (max-width:658px) {
     #nav_bar {
         max-width: 95vw;
-        border-radius: 20px;
+        border-radius: 10px;
         margin: 0 auto;
     }
 
