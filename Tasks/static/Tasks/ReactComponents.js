@@ -27,6 +27,12 @@
             targetDate = new Date(props.target_date);
             td_formatted = targetDate.toLocaleDateString('en-UK', { day: '2-digit', month: 'short' });
         }
+        let formatted_time = ''
+        // Format parsed time.
+        if (props.target_time != null) {
+            let due_time = props.target_time;
+            formatted_time = due_time.split(':').slice(0, 2).join(':');
+        }
         // Create components to update whether or not a task is 'completed'
         const [completed, setCompleted] = React.useState(props.completed);
         // 'hidden' variable to detect hovering and render accordingly
@@ -183,7 +189,7 @@
 
                                 <div class="col-2 col-md-2 target-time-container">
                                     {hidden ? (
-                                        <div class="due">{props.target_time}</div>
+                                        <div class="due">{formatted_time}</div>
                                     ) : (
                                         <button title="Delete" onClick={handleDelete} class="delete-btn" id={`delete-btn_${props.id}`}>
                                             &#128465;
