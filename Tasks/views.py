@@ -115,10 +115,7 @@ def index(request):
             "page_obj": page_obj
         })
     else:
-        return render(request, "Tasks/index.html", {
-            "new_task_form": NewTaskForm,
-            "now": timezone.now()
-        })
+        return render(request, "Tasks/Login.html", {})
 
 def list_completed(request):
     if request.user.is_authenticated:
