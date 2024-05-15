@@ -3,7 +3,7 @@
 {% block body %}
   <div class="container">
       <h3 style="margin: 20px;">Edit Task</h3>
-      <form action="{% url 'update_task' %}" id="newTaskForm" method="post">
+      <form action="{% url 'update_task' task_id %}" id="newTaskForm" method="post">
           {% csrf_token %}
           {{ new_task_form.non_field_errors }}
             <div class="fieldWrapper" id="taskTitle">

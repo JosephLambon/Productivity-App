@@ -1,8 +1,5 @@
 from django import forms
 from datetime import datetime
-
-
-
 class NewTaskForm(forms.Form):
     task = forms.CharField(label="Task",max_length=255)
     target_date = forms.DateField(label='Target Completion Date',
@@ -22,9 +19,9 @@ class NewEventForm(forms.Form):
                                   error_messages={'invalid': 'Please enter a valid date.'})
     start_time = forms.TimeField(label='Target Completion Time',
                                   required=True,
-                                  widget=forms.TimeInput(attrs={'type': 'time'}),
+                                  widget=forms.TimeInput(attrs={'type': 'time', 'id': 'startTime'}),
                                   error_messages={'invalid': 'Please enter a valid time.'})
     end_time = forms.TimeField(label='Target Completion Time',
                                   required=True,
-                                  widget=forms.TimeInput(attrs={'type': 'time'}),
+                                  widget=forms.TimeInput(attrs={'type': 'time', 'id': 'endTime'}),
                                   error_messages={'invalid': 'Please enter a valid time.'})

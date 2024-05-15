@@ -368,6 +368,8 @@ def new_event(request):
             date = form.cleaned_data["date"]
             start_time = form.cleaned_data["start_time"]
             end_time = form.cleaned_data["end_time"]
+            if end_time < start_time:
+                return HttpResponseBadRequest("End time cannot be before Start time.")
         
         new_event = CalendarEvent(user=user, title=title,
                         date=date,

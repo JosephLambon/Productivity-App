@@ -145,24 +145,6 @@
             }
         }
 
-        const handleEdit = () => {
-            let django_url = `/edit-task/${props.id}`;
-            fetch(django_url)
-                .then(response => {
-                    // Handle the response here, for example:
-                    if (response.ok) {
-                        // If the response is OK, you might redirect or update the UI
-                        window.location.href = django_url;
-                    } else {
-                        // Handle errors here
-                    }
-                })
-                .catch(error => {
-                    // Handle fetch errors here
-                });
-            }
-
-
         return (
             <div class="row" style={{paddingLeft: '20px', paddingRight: '20px'}} id={`taskContainer_${props.id}`}
             onMouseEnter={() => setHidden(false)} onMouseLeave={() => setHidden(true)}>
@@ -193,8 +175,8 @@
                                             <div></div>
                                         )
                                     ) : (
-                                        <button title="Edit" onClick={handleEdit} class="delete-btn" id={`edit-btn_${props.id}`}>
-                                            &#128395;
+                                        <button title="Edit" class="delete-btn" id={`edit-btn_${props.id}`}>
+                                            <a style={{textDecoration: 'None'}} href={`edit-task/${props.id}`}>&#128395;</a>
                                         </button>
                                     )}
                                 </div>

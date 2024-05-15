@@ -45,11 +45,11 @@
                           <label class="mont-bold" for="{{ form.title.id_for_label }}">Title:</label>
                           {{form.title}}
                         </div>
-                        <div class="fieldWrapper" id="endTime">
+                        <div class="fieldWrapper" >
                           <label for="{{ form.title.id_for_label }}" class="mont-bold">Date: </label>
                           {{form.date}}
                         </div>
-                        <div class="fieldWrapper" id="endTime">
+                        <div class="fieldWrapper">
                           <label class="mont-bold" for="{{ form.title.id_for_label }}">Start time: </label>
                           {{form.start_time}}
                         </div>
@@ -72,6 +72,32 @@
     <div class="scroll_container" id="dayViewContainer">
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startTimeField = document.getElementById('startTime');
+        const endTimeField = document.getElementById('endTime');
+
+        startTimeField.addEventListener('change', function() {
+            // Get the selected start time value
+            const startTimeValue = startTimeField.value;
+
+            // Parse the start time to get hours and minutes
+            const [hours, minutes] = startTimeValue.split(':').map(Number);
+
+            // Calculate end time as 1 hour after start time
+            const endTimeHours = hours + 1;
+            const endTimeMinutes = minutes;
+
+            // Format end time as HH:MM string
+            const endTimeValue = `${endTimeHours.toString().padStart(2, '0')}:${endTimeMinutes.toString().padStart(2, '0')}`;
+
+            // Set the value of the end time field
+            endTimeField.value = endTimeValue;
+            endTimeField.innerText = endTimeValue;
+        });
+    });
+</script>
 
 <script type="text/babel">
     // Parse in day's JSON data
@@ -167,6 +193,10 @@
                 currentDiv.classList.add('event-side-border');
                 currentDiv = currentDiv.nextElementSibling;
             }
+            startDiv.classList.add('calendar-event');
+            startDiv.classList.add('event-side-border');
+            endDiv.classList.add('calendar-event');
+            endDiv.classList.add('event-side-border');
 
         }
 
