@@ -112,7 +112,7 @@ python manage.py runserver
 
 For this project, we were required to make a video displaying our web application's functionality. Feel free to watch this short example of the final product. There are timestamps in the bio showing each of the implemented features.
 
-<a href= 'https://youtu.be/YKnweCe89U4'>
+<a href= 'https://youtu.be/vhU48oo2p70'>
 <img width="1494" alt="Thumbnail" 
- src="https://github.com/JosephLambon/project4/assets/107887718/95ce679e-a5f9-4110-8615-8856dc3f7f30">
+ src="https://github.com/JosephLambon/Tasks/assets/107887718/6681ac86-9e30-4e73-820d-df09f30f0fae">
 </a>
