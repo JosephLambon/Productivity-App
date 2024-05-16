@@ -18,9 +18,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator
 
 def serialise(tasks):
-    # for task in tasks:
-    #     if task.target_date != None:
-    #         task.target_date = task.target_date.strftime('%d %b')
     # Serialisation allows us to transfer and store the
     # posts data in a way that remains accessible in JSX
     # AKA translates our Django 'Post' model data.
@@ -98,15 +95,19 @@ def register(request):
 
 def index(request):
     if request.user.is_authenticated:
+        # Obtain task objects, ordered by their 'created' data
         tasks = Task.objects.filter(user=request.user).order_by('-created')
         
+        # Split tasks into 'pages', max 10 per page
         p = Paginator(tasks.filter(completed=False), 10)
         page_no = request.GET.get('page')
         page_obj = p.get_page(page_no)
 
+        # Serialise task data, making it parseable to JS
         serialized_tasks = serialise(page_obj.object_list)
         tasks_raw = serialise(tasks)
 
+        # Render index.html
         return render(request, "Tasks/index.html", {
             "new_task_form": NewTaskForm,
             "tasks": serialized_tasks,
@@ -115,14 +116,16 @@ def index(request):
             "page_obj": page_obj
         })
     else:
+        # If not logged in, take user to login page.
         return render(request, "Tasks/Login.html", {})
 
 def list_completed(request):
     if request.user.is_authenticated:
         tasks = Task.objects.filter(user=request.user).order_by('-created')
+        # Filter to ONLY completed tasks.
         completed_tasks = tasks.filter(completed=True)
-        
-        p = Paginator(completed_tasks, 30)
+        # Paginate to max 20 per page.
+        p = Paginator(completed_tasks, 20)
         page_no = request.GET.get('page')
         page_obj = p.get_page(page_no)
 
@@ -136,13 +139,11 @@ def list_completed(request):
     else:
         return HttpResponseRedirect(reverse("index"))
 
-# Define newTask.
-# If newTask has end date, show it!
-# Turn date red if overdue.
 @login_required
 def new_task(request):    
     user = User.objects.get(id=request.user.id)
     if request.method == "POST":
+        # Render the submitted form
         form = NewTaskForm(request.POST)
 
         if form.is_valid():
@@ -150,11 +151,12 @@ def new_task(request):
             target_date = form.cleaned_data["target_date"]
             target_time = form.cleaned_data["target_time"]
         
+        # Create a new task with submitted form details
         new_task = Task(user=user, task=task, completed=False,
                         target_date=target_date,
                         target_time=target_time)
         new_task.save()
-        
+        # Redirect to To-Do list
         return HttpResponseRedirect(reverse("index"))
 
 @login_required
@@ -165,6 +167,7 @@ def complete_task(request):
         
         try:
             task = Task.objects.get(id=task_id)
+            # Set 'completed' attribute of task to 'True'
             task.completed = True
             task.save()
             return JsonResponse({'success': True, 'message': "Task 'completed' successfully"}, status=200)
@@ -181,6 +184,7 @@ def uncomplete_task(request):
         
         try:
             task = Task.objects.get(id=task_id)
+            # Set 'completed' attribute of task to 'False'
             task.completed = False
             task.save()
             return JsonResponse({'success': True, 'message': "Task 'uncompleted' successfully"}, status=200)
@@ -196,6 +200,7 @@ def delete_task(request):
         task_id = data.get('taskID')
         try:
             task = Task.objects.get(id=task_id)
+            # Delete selected task from database.
             task.delete()
             return JsonResponse({'success': True, 'message': "Task's deleted successfully"}, status=200)
         except Task.DoesNotExist: 
@@ -206,8 +211,11 @@ def delete_task(request):
 @login_required
 def edit_task(request, task_id):
     task = Task.objects.get(id=task_id)
+    # Supply data to initially render in edit task form
     initial_data = {'task': task.task, 'target_date': task.target_date, 'target_time': task.target_time}
+    # Initially render the task's stored details
     edit_task_form = NewTaskForm(initial=initial_data)
+    # Render edit.html with NewTaskForm, initialised with currently stored data.
     return render(request, "Tasks/edit.html", {
         "task": task,
         "new_task_form": edit_task_form,
@@ -219,19 +227,22 @@ def update_task(request, task_id):
     user = User.objects.get(id=request.user.id)
     
     if request.method == "POST":
+        # Retrieve data submitted from edit.html (see edit_task view)
         form = NewTaskForm(request.POST)
 
         if form.is_valid():
             task_title = form.cleaned_data["task"]
             target_date = form.cleaned_data["target_date"]
             target_time = form.cleaned_data["target_time"]
-        
+        # Retrieve edited task
         task = Task.objects.get(id=task_id, user=user)
+        # Update task's values
         task.task = task_title
         task.target_date = target_date
         task.target_time = target_time
+        # Save new task values to database
         task.save()
-        
+        # Render To-Do List with updated values
         return HttpResponseRedirect(reverse("index"))
     
 # CALENDAR 
@@ -263,15 +274,14 @@ def get_six_weeks_around_today():
     return start_date, end_date
 
 def find_month(int):
+    # Array of months in a year
     months = ["Jan", "Feb", "Mar", "Apr", "May",
               "Jun", "Jul", "Aug", "Sep", "Oct",
               "Nov", "Dec"]
+    # Return the current month
     return months[int - 1]
 
 def serialise_events(calendar_events):
-    # for task in tasks:
-    #     if task.target_date != None:
-    #         task.target_date = task.target_date.strftime('%d %b')
     # Serialisation allows us to transfer and store the
     # posts data in a way that remains accessible in JSX
     # AKA translates our Django 'Post' model data.
@@ -295,11 +305,12 @@ def serialise_events(calendar_events):
     return serialized_events
 
 def sort_days(request, month_dates, events):
-
+    # Get current user
     user = User.objects.get(id=request.user.id)
     month_days = []
-
+    
     for day in month_dates:
+        # Create a 'Day' (see models.py) for every day of month being rendered
         try:
             day = Day.objects.get(date=day)
         except ObjectDoesNotExist:
@@ -308,9 +319,10 @@ def sort_days(request, month_dates, events):
         # Filter events for the current day
         day_events = events.filter(date=day.date)
 
+        # Add event to ManytoMany Day model
         for event in day_events:
             day.events.add(event)
-        
+        # Save Day
         day.save()
         month_days.append(day)
     
@@ -332,18 +344,21 @@ def serialise_days(days):
     serialised_days = json.dumps(s_days, cls=DjangoJSONEncoder)
     return serialised_days
 
-
 @login_required
 def load_calendar(request):
+    # Find the relevant 6 weeks containing current month
     start_date, end_date = get_six_weeks_around_today()
     month = find_month(datetime.date.today().month)
+    # Use pandas to create array of dates between start and end dates
     month_view_dates = pd.date_range(start_date, periods=42).strftime('%Y-%m-%d').tolist()
 
     user = User.objects.get(id=request.user.id)
+    # Filter events for that day
     events = CalendarEvent.objects.filter(user=request.user)
     month_days = sort_days(request, month_view_dates, events)
     parseable_month_days = serialise_days(month_days)
 
+    # Render month view
     return render(request, "Tasks/calendar.html", {
         "start_date": start_date,
         "end_date": end_date,
@@ -356,6 +371,7 @@ def load_calendar(request):
 
 @login_required
 def new_event(request):
+    # Create new event based on submitted form
     user = User.objects.get(id=request.user.id)
     if request.method == "POST":
         form = NewEventForm(request.POST)
@@ -378,9 +394,12 @@ def new_event(request):
     
 @login_required
 def day_view(request, day_id):
+    # Try to load the requested day based on ID provided
     try:
         day = Day.objects.get(user=request.user, id=day_id)
+        # ID of yesterday
         yesterday_id = int(day_id) - 1
+        # ID of tomorrow
         tomorrow_id = int(day_id) + 1
         
         # Serialize datetime objects to string
@@ -400,6 +419,7 @@ def day_view(request, day_id):
             ]
         }
         day_json = json.dumps(day_data, cls=DjangoJSONEncoder)
+        # Render day view
         return render(request, 'Tasks/day.html', {
             'day': day_json,
             'header_date': day_data,

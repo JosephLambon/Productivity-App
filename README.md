@@ -54,8 +54,8 @@ Finally, I also made two seperate CSS files. The 'calendar.css' file targets spe
 ## <a id='contained'> What's contained? </a>
 * **calendar.html** - This HTML page renders the month view for the calendar. A small amount of JavaScript can also be found at the bottom, responsible for automatically setting the 'end-time' to 1 hour after the 'start-time' when you create an event.
 * **day.html** - This HTML page renders the day view for the calendar. This utlilises the 'Day' React component I defined, calling it to be rendered. There are also four JavaScript functions defined at the bottom which render any events on top of that component.
-* **edit.html** - This HTML page renders the form which allows a user to edit and update a task's title, due date or due time.
-* **index.html** - This HTML page renders the 'Tasks' page, displaying the To-Do list of the logged-in user.
+* **edit.html** - This HTML page renders the form which allows a user to edit and update a task's title, due date or due time. 
+* **index.html** - This HTML page renders the 'Tasks' page, displaying the To-Do list of the logged-in user. Contains some JS at the bottom which renders any 'Task' model components which have are completed/uncompleted, in seperate containers.
 * **layout.html** - This HTML page renders the overall website template, defining the top and bottom navigation bars.
 * **login.html** - The login page.
 * **register.html** - The page whereby a new account can be registered.

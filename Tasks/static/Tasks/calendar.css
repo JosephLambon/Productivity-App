@@ -116,7 +116,7 @@
   left: 15px; /* Adjust this value to align the counter at the desired position */
   background-color: rgb(8, 136, 255);
   color: white;
-  border-radius: 50%; /* Makes a small red circle */
+  border-radius: 50%;
   width: 20px; /* Adjust this value to change the size of the circle */
   height: 20px; /* Adjust this value to change the size of the circle */
   display: flex;
