@@ -60,18 +60,16 @@
 }
 
 .event-top-border {
-  border-top: solid rgba(0, 0, 0, 0.6) 1px;
-  border-radius: 5%;
+  border-top: solid rgba(0, 0, 0, 0.4) 1px;
 }
 
 .event-side-border {
-  border-right: solid rgba(0, 0, 0, 0.6) 1px;
-  border-left: solid rgba(0, 0, 0, 0.6) 1px;
+  border-right: solid rgba(0, 0, 0, 0.4) 1px;
+  border-left: solid rgba(0, 0, 0, 0.4) 1px;
 }
 
 .event-bottom-border {
-  border-bottom: solid rgba(0, 0, 0, 0.6) 1px;
-  border-radius: 5%;
+  border-bottom: solid rgba(0, 0, 0, 0.4) 1px;
 }
 
 #calendar_top {

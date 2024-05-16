@@ -169,7 +169,7 @@
     }
 
     // Render events to the dayViewContainer
-    function renderEvents() {
+    function renderEvents(dayData) {
         const events = dayData.events;
 
         for (const event of events) {
@@ -186,7 +186,7 @@
             // Iterate over the divs between start and end times
             let currentDiv = startDiv.nextElementSibling;
             // Add title to top of event (First one after start time)
-            currentDiv.innerHTML = `<h5 class="event-title">${event.title}</h5>`;
+            currentDiv.innerHTML = `<p class="event-title mont-bold">${event.title}</p>`;
             while (currentDiv !== endDiv) {
                 // Update inner HTML and adjust CSS styling
                 currentDiv.classList.add('calendar-event');
@@ -195,14 +195,16 @@
             }
             startDiv.classList.add('calendar-event');
             startDiv.classList.add('event-side-border');
+            startDiv.classList.add('event-top-border');
             endDiv.classList.add('calendar-event');
             endDiv.classList.add('event-side-border');
+            endDiv.classList.add('event-bottom-border');
 
         }
 
 
     }
 
-    renderEvents();
+    renderEvents(dayData);
 </script>
 {% endblock %}
