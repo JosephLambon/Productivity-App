@@ -32,12 +32,12 @@ The only constraints were that the web app must utilise Django on the back-end, 
 > SQLite is a C-language library that implements a fast & reliable SQL database engine.
 
 ## <a id='dist_and_comp'> Distinctiveness and Complexity </a>
-#### Distinctiveness
+### Distinctiveness
 Being a productivity app, the essential data being dealt with here are dates, times and titles.
 
 Where this remains most distinct from the 'Mail', 'Auctions' and 'Social Network' projects completed prior to this, is that the experience is isolated to a single user. There is no exchange of data between users, and no social aspect.
 
-#### Complexity
+### Complexity
 The complex nature of this app lies in it having more than one essential function. The 'Tasks' and 'Calendar' portions could even be split into seperate applications. With more time, I would build these out further to have some interplay, with tasks appearing on the calendar.
 
 The focus was on creating a more sleek and dynamic User Interface. Having implemented a much greater variety of Bootstrap components to in previous projects, I have been able to create intuitive sections for adding tasks and events. Furthermore, I decided to lean into React's potential; utilising 'useState' to render edit and delete buttons for tasks conditionally (when hovered over), removing clutter from the viewport and offering the User Experience (UX) one might expect in a modern application.
