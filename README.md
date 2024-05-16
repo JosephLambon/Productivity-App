@@ -1,5 +1,5 @@
 # Productivity App
->### My CS50W Final Project
+>### (CS50W) Project 5: My Final Project
 
 ## Contents
 1. [Project Synopsis](#project_synopsis)
