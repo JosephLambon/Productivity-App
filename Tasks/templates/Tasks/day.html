@@ -17,10 +17,10 @@
                 <h1 style="margin-bottom: 0;"><strong>{{ header_date.date|date:"j M" }}</strong> {{ header_date.date|date:"Y" }}</h1>
                 <h4 style="margin-bottom: 20px; margin-top: 0;">{{ header_date.date|date:"l" }}<h4>
                 <div class="btn-group">
-                    {% if yesterday_id > 0 %}
+                    {% if difference < 41 %}
                         <a href="{% url 'day_view' yesterday_id %}" class="btn btn-primary" aria-current="page"> < </a>
                     {% endif %}
-                    {% if tomorrow_id < 43 %}
+                    {% if difference > 0 %}
                     <a href="{% url 'day_view' tomorrow_id %}" class="btn btn-primary" aria-current="page"> > </a>
                     {% endif %}
                 </div>

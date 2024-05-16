@@ -12,6 +12,7 @@ import json
 
 import pandas as pd
 import datetime
+import calendar
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
@@ -269,7 +270,7 @@ def get_six_weeks_around_today():
     start_date -= datetime.timedelta(days=start_date.weekday())
 
     # Adjust end date to the end of the week
-    end_date += datetime.timedelta(days=6 - end_date.weekday())
+    # end_date += datetime.timedelta(days=6 - end_date.weekday())
 
     return start_date, end_date
 
@@ -368,6 +369,7 @@ def load_calendar(request):
         "year": datetime.date.today().year,
         "today": Day.objects.get(user=request.user, date=datetime.date.today())
     })
+    
 
 @login_required
 def new_event(request):
@@ -402,6 +404,12 @@ def day_view(request, day_id):
         # ID of tomorrow
         tomorrow_id = int(day_id) + 1
         
+        # Variable to define whether day forward/back toggles render
+        start_date, end_date = get_six_weeks_around_today()
+        today = Day.objects.get(user=request.user, date=start_date)
+        start_day = Day.objects.get(user=request.user, date=start_date)
+        last_day = Day.objects.get(user=request.user, id=(start_day.id+41))
+        difference = last_day.id - day.id
         # Serialize datetime objects to string
         day_data = {
             'user': day.user.username,
@@ -425,7 +433,8 @@ def day_view(request, day_id):
             'header_date': day_data,
             'tomorrow_id': tomorrow_id,
             'yesterday_id': yesterday_id,
-            "form": NewEventForm()
+            "difference": difference,
+            "form": NewEventForm(),
             })
     except Day.DoesNotExist:
         return HttpResponseNotFound("Day not found")
