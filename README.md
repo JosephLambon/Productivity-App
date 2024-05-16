@@ -52,19 +52,20 @@ A way in which I made use of JavaScript was to automatically set the 'end time' 
 Finally, I also made two seperate CSS files. The 'calendar.css' file targets specifically the calendar pages, de-cluttering the main 'styles.css'
 
 ## <a id='contained'> What's contained? </a>
-* calendar.html - This HTML page renders the month view for the calendar. A small amount of JavaScript can also be found at the bottom, responsible for automatically setting the 'end-time' to 1 hour after the 'start-time' when you create an event.
-* day.html - This HTML page renders the day view for the calendar. This utlilises the 'Day' React component I defined, calling it to be rendered. There are also four JavaScript functions defined at the bottom which render any events on top of that component.
-* edit.html - This HTML page renders the form which allows a user to edit and update a task's title, due date or due time.
-* index.html - This HTML page renders the 'Tasks' page, displaying the To-Do list of the logged-in user.
-* layout.html - This HTML page renders the overall website template, defining the top and bottom navigation bars.
-* login.html - The login page.
-* register.html - The page whereby a new account can be registered.
+* **calendar.html** - This HTML page renders the month view for the calendar. A small amount of JavaScript can also be found at the bottom, responsible for automatically setting the 'end-time' to 1 hour after the 'start-time' when you create an event.
+* **day.html** - This HTML page renders the day view for the calendar. This utlilises the 'Day' React component I defined, calling it to be rendered. There are also four JavaScript functions defined at the bottom which render any events on top of that component.
+* **edit.html** - This HTML page renders the form which allows a user to edit and update a task's title, due date or due time.
+* **index.html** - This HTML page renders the 'Tasks' page, displaying the To-Do list of the logged-in user.
+* **layout.html** - This HTML page renders the overall website template, defining the top and bottom navigation bars.
+* **login.html** - The login page.
+* **register.html** - The page whereby a new account can be registered.
 
-* check2.WAV - The audio that is played when a user completes a task.
-* calendar.css - Styling for the calendar pages.
-* styles.css - Styling for the remainder of the application.
-* admin.py - Rendering data on the '/admin/' page.
-* forms.py - Forms for adding events, and adding tasks.
+* **check2.WAV** - The audio that is played when a user completes a task.
+* **calendar.css** - Styling for the calendar pages.
+* **styles.css** - Styling for the remainder of the application.
+* **admin.py** - Rendering data on the '/admin/' page.
+* **forms.py** - Forms for adding events, and adding tasks.
+* **requirements.txt** - Prerequisite packages required for application to run successfully.
 
 
 ## <a id='setup'> Setup and Usage </a>
