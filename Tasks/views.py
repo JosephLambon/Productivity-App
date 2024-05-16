@@ -312,7 +312,7 @@ def sort_days(request, month_dates, events):
     for day in month_dates:
         # Create a 'Day' (see models.py) for every day of month being rendered
         try:
-            day = Day.objects.get(date=day)
+            day = Day.objects.get(date=day, user=request.user)
         except ObjectDoesNotExist:
             day = Day(date=day, user=request.user)
 
