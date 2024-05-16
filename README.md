@@ -59,12 +59,8 @@ Finally, I also made two seperate CSS files. The 'calendar.css' file targets spe
 * **layout.html** - This HTML page renders the overall website template, defining the top and bottom navigation bars.
 * **login.html** - The login page.
 * **register.html** - The page whereby a new account can be registered.   
-
-\
 * **ReactComponents.js** - JavaScript file containing all of my React component definitions.
 * **app.js** - JavaScript functions which improve UX in day.html and calendar.html.  
-
-\
 * **check2.WAV** - The audio that is played when a user completes a task.
 * **calendar.css** - Styling for the calendar pages.
 * **styles.css** - Styling for the remainder of the application.
