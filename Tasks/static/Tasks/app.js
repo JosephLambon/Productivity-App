@@ -98,7 +98,9 @@ function renderEvents(dayData) {
 
 
 }
-
+// For day.html and calendar.html
+// Automatically sets end time to be 1hr on from any input start time
+// on the 'Add Event' modal form.
 function autofillEndTime() {
     document.addEventListener('DOMContentLoaded', function() {
         const startTimeField = document.getElementById('startTime');
